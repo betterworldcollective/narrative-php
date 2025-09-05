@@ -1,0 +1,26 @@
+{
+    "name": "betterworld/narrative-php",
+    "description": "Narrative driver for PHP",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Prince John Santillan",
+            "email": "mail@princejohnsantillan.net"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "saloonphp/saloon": "^3.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "BetterWorld\\NarrativePhp\\": "src/"
+        }
+    },
+    "require-dev": {
+        "laravel/pint": "^1.24"
+    },
+    "scripts": {
+        "lint": "@php vendor/bin/pint"
+    }
+}
