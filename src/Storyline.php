@@ -2,6 +2,7 @@
 
 namespace BetterWorld\NarrativePhp;
 
+use BetterWorld\NarrativePhp\Requests\Storyline\Listener;
 use BetterWorld\NarrativePhp\Resources\Storyline\EventResource;
 use BetterWorld\NarrativePhp\Resources\Storyline\ScopeResource;
 use Saloon\Http\Auth\TokenAuthenticator;
@@ -37,5 +38,10 @@ class Storyline extends Connector
     public function scopes(): ScopeResource
     {
         return new ScopeResource($this);
+    }
+
+    public function listen(array $occurrences): void
+    {
+        $this->send(new Listener($occurrences));
     }
 }
