@@ -24,6 +24,6 @@
     },
     "scripts": {
         "lint": "@php vendor/bin/pint",
-        "analyse": "@php vendor/bin/phpstan analyse"
+        "analyse": "@php vendor/bin/phpstan analyse --memory-limit=-1"
     }
 }

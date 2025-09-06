@@ -7,5 +7,5 @@ use Attribute;
 #[Attribute(Attribute::TARGET_CLASS)]
 class Name
 {
-    public function __construct(public string $name) {}
+    public function __construct(public string $name, public ?string $slug = null) {}
 }

@@ -19,14 +19,24 @@ use ReflectionProperty;
  */
 trait Narrator
 {
-    public static function event(): string
+    public static function slug(): ?string
+    {
+        $event = (new ReflectionClass(static::class))
+            ->getAttributes(Name::class);
+
+        $slug = empty($event) ? null : $event[0]->newInstance()->slug;
+
+        return $slug === null ? null : Str::slug($slug);
+    }
+
+    public static function name(): string
     {
         $event = (new ReflectionClass(static::class))
             ->getAttributes(Name::class);
 
         return empty($event)
-            ? Str::of(static::class)->classBasename()->beforeLast('Narrative')->kebab()->toString()
-            : Str::kebab($event[0]->newInstance()->event);
+            ? Str::of(static::class)->classBasename()->beforeLast('Narrative')->headline()->toString()
+            : $event[0]->newInstance()->name;
     }
 
     public static function context(): string

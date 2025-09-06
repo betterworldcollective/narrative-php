@@ -24,7 +24,7 @@ final class Scribe implements Publisher
                 }
 
                 $occurrence = [
-                    'event' => $narrative::event(),
+                    'event' => $narrative::name(),
                     'details' => $narrative->values(),
                     'framing' => $narrative->framing(),
                     'occurred_at' => $narrative->occurredAt(),

@@ -15,7 +15,7 @@ final class Registrar implements Contracts\Registrar
                 $this->narrativeService
                     ->getStorylineConnector($storyline)
                     ->events()
-                    ->create($event::event(), $event::context(), $event::definitions());
+                    ->create($event::name(), $event::context(), $event::definitions(), $event::slug());
             }
         }
     }

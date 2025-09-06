@@ -12,9 +12,14 @@ interface Narrative
     public static function storylines(): array;
 
     /**
+     * The slug of the event that occurred.
+     */
+    public static function slug(): ?string;
+
+    /**
      * The name of the event that occurred.
      */
-    public static function event(): string;
+    public static function name(): string;
 
     /**
      * A description of the event to provide more context.
