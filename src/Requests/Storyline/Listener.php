@@ -14,7 +14,7 @@ class Listener extends Request implements HasBody
     protected Method $method = Method::POST;
 
     /**
-     * @param  array<string,mixed>  $occurrences
+     * @param  mixed[]  $occurrences
      */
     public function __construct(
         protected array $occurrences
@@ -26,7 +26,7 @@ class Listener extends Request implements HasBody
     }
 
     /**
-     * @return array<string,mixed>
+     * @return array<string,mixed[]>
      */
     protected function defaultBody(): array
     {

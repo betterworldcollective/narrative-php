@@ -10,26 +10,35 @@ final class Scribe implements Publisher
         protected NarrativeService $narrativeService
     ) {}
 
-    public function publish(array $narratives): void
+    public function publish(Contracts\Book $book): void
     {
-        $storylines = [];
+        foreach ($book->storylines() as $storyline) {
+            $occurrences = [];
 
-        foreach ($narratives as $narrative) {
-            foreach ($narrative::storylines() as $storyline) {
-                $storylines[$storyline][] = [
+            foreach ($book->read($storyline) as $narrative) {
+                $scopes = null;
+
+                if ($narrative instanceof ScopedNarrative) {
+                    $scopes = $narrative->scopes;
+                    $narrative = $narrative->narrative;
+                }
+
+                $occurrence = [
                     'event' => $narrative::event(),
-                    // 'scope' => TBD,
                     'details' => $narrative->values(),
                     'framing' => $narrative->framing(),
                     'occurred_at' => $narrative->occurredAt(),
                 ];
-            }
-        }
 
-        foreach ($storylines as $storyline => $occurrences) {
+                if ($scopes !== null) {
+                    $occurrence['scopes'] = $scopes;
+                }
+
+                $occurrences[] = $occurrence;
+            }
+
             $this->narrativeService->getStorylineConnector($storyline)
                 ->listen($occurrences);
         }
-
     }
 }

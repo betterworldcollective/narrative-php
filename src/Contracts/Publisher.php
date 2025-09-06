@@ -4,6 +4,5 @@ namespace Narrative\Contracts;
 
 interface Publisher
 {
-    /** @param Narrative[] $narratives */
-    public function publish(array $narratives): void;
+    public function publish(Book $book): void;
 }

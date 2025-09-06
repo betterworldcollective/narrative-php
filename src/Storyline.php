@@ -41,7 +41,7 @@ class Storyline extends Connector
     }
 
     /**
-     * @param  array<string,mixed>  $occurrences
+     * @param  mixed[]  $occurrences
      */
     public function listen(array $occurrences): bool
     {
