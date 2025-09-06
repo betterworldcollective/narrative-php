@@ -1,11 +1,11 @@
 <?php
 
-namespace BetterWorld\NarrativePhp\Resources\Storyline;
+namespace Narrative\Resources\Storyline;
 
-use BetterWorld\NarrativePhp\Requests\Storyline\Event\CreateEvent;
-use BetterWorld\NarrativePhp\Requests\Storyline\Event\DeleteEvent;
-use BetterWorld\NarrativePhp\Requests\Storyline\Event\ListEvents;
-use BetterWorld\NarrativePhp\Requests\Storyline\Event\UpdateEvent;
+use Narrative\Requests\Storyline\Event\CreateEvent;
+use Narrative\Requests\Storyline\Event\DeleteEvent;
+use Narrative\Requests\Storyline\Event\ListEvents;
+use Narrative\Requests\Storyline\Event\UpdateEvent;
 use Saloon\Http\BaseResource;
 
 class EventResource extends BaseResource

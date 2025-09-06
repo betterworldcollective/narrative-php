@@ -1,6 +1,6 @@
 <?php
 
-namespace BetterWorld\NarrativePhp\Requests\Storyline;
+namespace Narrative\Requests\Storyline;
 
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;

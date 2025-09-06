@@ -1,11 +1,11 @@
 <?php
 
-namespace BetterWorld\NarrativePhp\Resources\Storyline;
+namespace Narrative\Resources\Storyline;
 
-use BetterWorld\NarrativePhp\Requests\Storyline\Scope\CreateScope;
-use BetterWorld\NarrativePhp\Requests\Storyline\Scope\DeleteScope;
-use BetterWorld\NarrativePhp\Requests\Storyline\Scope\ListScopes;
-use BetterWorld\NarrativePhp\Requests\Storyline\Scope\UpdateScope;
+use Narrative\Requests\Storyline\Scope\CreateScope;
+use Narrative\Requests\Storyline\Scope\DeleteScope;
+use Narrative\Requests\Storyline\Scope\ListScopes;
+use Narrative\Requests\Storyline\Scope\UpdateScope;
 use Saloon\Http\BaseResource;
 
 class ScopeResource extends BaseResource

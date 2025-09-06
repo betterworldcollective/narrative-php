@@ -1,10 +1,10 @@
 <?php
 
-namespace BetterWorld\NarrativePhp;
+namespace Narrative;
 
-use BetterWorld\NarrativePhp\Requests\Storyline\Listener;
-use BetterWorld\NarrativePhp\Resources\Storyline\EventResource;
-use BetterWorld\NarrativePhp\Resources\Storyline\ScopeResource;
+use Narrative\Requests\Storyline\Listener;
+use Narrative\Resources\Storyline\EventResource;
+use Narrative\Resources\Storyline\ScopeResource;
 use Saloon\Http\Auth\TokenAuthenticator;
 use Saloon\Http\Connector;
 

@@ -10,11 +10,12 @@
     ],
     "require": {
         "php": "^8.2",
-        "saloonphp/saloon": "^3.14"
+        "saloonphp/saloon": "^3.14",
+        "illuminate/support": "^12.28"
     },
     "autoload": {
         "psr-4": {
-            "BetterWorld\\NarrativePhp\\": "src/"
+            "Narrative\\": "src/"
         }
     },
     "require-dev": {

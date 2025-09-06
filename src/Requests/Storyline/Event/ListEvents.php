@@ -1,6 +1,6 @@
 <?php
 
-namespace BetterWorld\NarrativePhp\Requests\Storyline\Event;
+namespace Narrative\Requests\Storyline\Event;
 
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
