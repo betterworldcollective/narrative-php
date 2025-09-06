@@ -1,6 +1,6 @@
 <?php
 
-namespace BetterWorld\NarrativePhp\Requests\Storyline;
+namespace BetterWorld\NarrativePhp\Requests\Storyline\Scope;
 
 use Saloon\Enums\Method;
 use Saloon\Http\Request;

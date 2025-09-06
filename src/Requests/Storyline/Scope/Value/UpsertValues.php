@@ -14,7 +14,10 @@ class UpsertValues extends Request implements HasBody
     /**
      * @param  array{id:string,name:string}[]  $scopes
      */
-    public function __construct(protected string $scope, protected array $scopes) {}
+    public function __construct(
+        protected string $scope,
+        protected array $scopes
+    ) {}
 
     protected Method $method = Method::PUT;
 
@@ -23,11 +26,11 @@ class UpsertValues extends Request implements HasBody
         return "/scopes/{$this->scope}/values";
     }
 
+    /** @return array<string,mixed> */
     protected function defaultBody(): array
     {
         return [
             'scopes' => $this->scopes,
         ];
-
     }
 }

@@ -40,8 +40,11 @@ class Storyline extends Connector
         return new ScopeResource($this);
     }
 
-    public function listen(array $occurrences): void
+    /**
+     * @param  array<string,mixed>  $occurrences
+     */
+    public function listen(array $occurrences): bool
     {
-        $this->send(new Listener($occurrences));
+        return $this->send(new Listener($occurrences))->successful();
     }
 }

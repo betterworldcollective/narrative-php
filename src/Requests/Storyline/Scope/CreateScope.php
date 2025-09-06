@@ -11,15 +11,20 @@ class CreateScope extends Request implements HasBody
 {
     use HasJsonBody;
 
-    public function __construct(protected string $name, protected string $context, protected ?string $slug = null) {}
-
     protected Method $method = Method::POST;
+
+    public function __construct(
+        protected string $name,
+        protected string $context,
+        protected ?string $slug = null
+    ) {}
 
     public function resolveEndpoint(): string
     {
         return '/scopes';
     }
 
+    /** @return array<string,mixed> */
     protected function defaultBody(): array
     {
         $body = [

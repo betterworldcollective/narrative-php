@@ -11,17 +11,25 @@ class UpdateScope extends Request implements HasBody
 {
     use HasJsonBody;
 
-    public function __construct(protected string $slug, protected ?string $newSlug = null, protected ?string $newName = null, protected ?string $newContext = null) {}
-
     protected Method $method = Method::PATCH;
+
+    public function __construct(
+        protected string $slug,
+        protected ?string $newSlug = null,
+        protected ?string $newName = null,
+        protected ?string $newContext = null
+    ) {}
 
     public function resolveEndpoint(): string
     {
         return "/scopes/{$this->slug}";
     }
 
+    /** @return array<string,mixed> */
     protected function defaultBody(): array
     {
+        $body = [];
+
         if ($this->newSlug !== null) {
             $body['slug'] = $this->newSlug;
         }

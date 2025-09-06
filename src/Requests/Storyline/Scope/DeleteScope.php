@@ -7,11 +7,11 @@ use Saloon\Http\Request;
 
 class DeleteScope extends Request
 {
+    protected Method $method = Method::DELETE;
+
     public function __construct(
         protected string $slug
     ) {}
-
-    protected Method $method = Method::DELETE;
 
     public function resolveEndpoint(): string
     {

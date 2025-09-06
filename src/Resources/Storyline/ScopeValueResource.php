@@ -8,13 +8,20 @@ use Saloon\Http\BaseResource;
 
 class ScopeValueResource extends BaseResource
 {
-    public function upsert(string $scope, array $scopes)
+    /**
+     * @param  array{id:string,name:string}[]  $scopes
+     * @return mixed[]
+     */
+    public function upsert(string $scope, array $scopes): array
     {
-        return $this->connector->send(new UpsertValues($scope, $scopes));
+        return $this->connector->send(new UpsertValues($scope, $scopes))->array();
     }
 
-    public function delete(string $scope, array $ids)
+    /**
+     * @param  string[]  $ids
+     */
+    public function delete(string $scope, array $ids): bool
     {
-        return $this->connector->send(new DeleteValues($scope, $ids));
+        return $this->connector->send(new DeleteValues($scope, $ids))->successful();
     }
 }

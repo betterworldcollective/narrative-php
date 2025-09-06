@@ -18,9 +18,11 @@
         }
     },
     "require-dev": {
-        "laravel/pint": "^1.24"
+        "laravel/pint": "^1.24",
+        "phpstan/phpstan": "^2.1"
     },
     "scripts": {
-        "lint": "@php vendor/bin/pint"
+        "lint": "@php vendor/bin/pint",
+        "analyse": "@php vendor/bin/phpstan analyse"
     }
 }

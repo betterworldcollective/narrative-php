@@ -11,15 +11,24 @@ class CreateEvent extends Request implements HasBody
 {
     use HasJsonBody;
 
-    public function __construct(protected string $name, protected string $context, protected ?array $definition = null, protected ?string $slug = null) {}
-
     protected Method $method = Method::POST;
+
+    /**
+     * @param  array<string,mixed>|null  $definition
+     */
+    public function __construct(
+        protected string $name,
+        protected string $context,
+        protected ?array $definition = null,
+        protected ?string $slug = null
+    ) {}
 
     public function resolveEndpoint(): string
     {
         return '/events';
     }
 
+    /** @return array<string,mixed> */
     protected function defaultBody(): array
     {
         $body = [
