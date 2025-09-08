@@ -4,13 +4,13 @@ namespace Narrative\Concerns;
 
 use DateTime;
 use DateTimeZone;
-use InvalidArgumentException;
 use Narrative\Attributes\Context;
 use Narrative\Attributes\Name;
 use Narrative\Attributes\OccurredAt;
 use Narrative\Attributes\Slug;
 use Narrative\Attributes\Storylines;
 use Narrative\Contracts\Narrative;
+use Narrative\Exceptions\InvalidDatetimeStringException;
 use Narrative\Exceptions\MissingContextException;
 use Narrative\ScopedNarrative;
 use PrinceJohn\Reflect\Reflect;
@@ -20,6 +20,7 @@ use ReflectionProperty;
 use function Narrative\Support\between;
 use function Narrative\Support\delimited_case;
 use function Narrative\Support\headline;
+use function Narrative\Support\isValidDateTime;
 
 /**
  * @phpstan-require-implements Narrative
@@ -72,10 +73,13 @@ trait Narrator
             $context = $property->getAttributes(Context::class);
 
             if (empty($context)) {
-                throw new MissingContextException('Context attribute is required.');
+                throw new MissingContextException('[Context] attribute is missing.');
             }
 
-            $definitions[delimited_case($property->getName())] = [
+            $slug = ($property->getAttributes(Slug::class)[0] ?? null)?->newInstance()->getSlug()
+                ?? delimited_case($property->getName());
+
+            $definitions[$slug] = [
                 'type' => $context[0]->newInstance()->type->value,
                 'context' => $context[0]->newInstance()->context,
             ];
@@ -94,7 +98,10 @@ trait Narrator
                 continue;
             }
 
-            $values[delimited_case($property->getName())] = $property->getValue($this);
+            $slug = ($property->getAttributes(Slug::class)[0] ?? null)?->newInstance()->getSlug()
+                ?? delimited_case($property->getName());
+
+            $values[$slug] = $property->getValue($this);
         }
 
         return $values;
@@ -107,18 +114,26 @@ trait Narrator
 
     public function occurredAt(): string
     {
+        $format = 'Y-m-d H:i:s';
+
         foreach ((new ReflectionClass(static::class))->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+            if ((string) $property->getType() !== 'string') {
+                continue;
+            }
+
             $attributes = $property->getAttributes(OccurredAt::class);
 
             if (! empty($attributes)) {
+                /** @var string $occurredAt */
                 $occurredAt = $property->getValue($this);
 
-                // TODO:: Check for valid date, throw custom exception on failure
-                return is_string($occurredAt) ? $occurredAt : throw new InvalidArgumentException('Value must be a string.');
+                return isValidDateTime($occurredAt, $format)
+                    ? $occurredAt
+                    : throw new InvalidDatetimeStringException("[{$occurredAt}] is not a {$format} datetime string.");
             }
         }
 
-        return (new DateTime(timezone: new DateTimeZone('UTC')))->format('Y-m-d H:i:s');
+        return (new DateTime(timezone: new DateTimeZone('UTC')))->format($format);
     }
 
     /**

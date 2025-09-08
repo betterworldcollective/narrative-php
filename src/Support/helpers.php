@@ -2,6 +2,7 @@
 
 namespace Narrative\Support;
 
+use DateTime;
 use Narrative\Exceptions\MissingArrayKeyException;
 
 /**
@@ -91,4 +92,12 @@ function headline(string $string): string
     }, explode(' ', $s));
 
     return implode(' ', $words);
+}
+
+function isValidDateTime(string $dateTimeString, string $format = 'Y-m-d H:i:s'): bool
+{
+    $dt = DateTime::createFromFormat($format, $dateTimeString);
+
+    // Check both parsing success and exact format match
+    return ($dt !== false) && ($dt->format($format) === $dateTimeString);
 }
