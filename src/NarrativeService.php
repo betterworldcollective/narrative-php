@@ -2,12 +2,19 @@
 
 namespace Narrative;
 
-use Narrative\Exceptions\MissingConfigurationException;
+use Narrative\Contracts\Publisher;
 
 final class NarrativeService
 {
     /**
-     * @param  array{host:string|null, default:string|null, storylines: array<string, array{id:string|null, token:string|null}>|null}  $config
+     * @param  array{
+     *     host:string|null,
+     *     default_storyline:string|null,
+     *     storylines: array<string, array{id:string|null, token:string|null}>|null,
+     *     default_publisher: class-string<Publisher>|null,
+     *     publishers: array<string, class-string<Publisher>>,
+     *     auto_publish: bool
+     * }  $config
      */
     public function __construct(
         protected array $config
@@ -15,7 +22,10 @@ final class NarrativeService
 
     public function getHost(): string
     {
-        return $this->config['host'] ?? throw new MissingConfigurationException('Host does not exist.');
+        /** @var string $host */
+        $host = array_value($this->config, 'host');
+
+        return $host;
     }
 
     /**
@@ -23,17 +33,16 @@ final class NarrativeService
      */
     public function getStoryline(?string $name = null): array
     {
-        if ($name === null) {
-            $name = $this->config['default'] ?? throw new MissingConfigurationException('[Default storyline does not exist.');
-        }
-
-        $storylineConfig = $this->config['storylines'][$name] ?? throw new MissingConfigurationException("[{$name}] storyline does not exist.");
+        /** @var string $name */
+        $name = $name === null ? array_value($this->config, 'default_storyline') : $name;
 
         $host = $this->getHost();
 
-        $id = $storylineConfig['id'] ?? throw new MissingConfigurationException("[{$name}] storyline ID does not exist.");
+        /** @var string $id */
+        $id = array_value($this->config, "storylines.{$name}.id");
 
-        $token = $storylineConfig['token'] ?? throw new MissingConfigurationException("[{$name}] storyline Token does not exist.");
+        /** @var string $token */
+        $token = array_value($this->config, "storylines.{$name}.token");
 
         return [
             'name' => $name,
@@ -50,5 +59,21 @@ final class NarrativeService
         $storyline = $this->getStoryline($name);
 
         return new Storyline($storyline['url'], $storyline['token']);
+    }
+
+    public function getPublisher(?string $name = null): Publisher
+    {
+        /** @var class-string<Publisher> $name */
+        $name = $name === null ? array_value($this->config, 'default_publisher') : $name;
+
+        /** @var Publisher $publisher */
+        $publisher = new $name;
+
+        return $publisher;
+    }
+
+    public function shouldAutoPublish(): bool
+    {
+        return (bool) array_value($this->config, 'auto_publish');
     }
 }

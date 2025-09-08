@@ -2,6 +2,8 @@
 
 namespace Narrative\Contracts;
 
+use Narrative\ScopedNarrative;
+
 interface Narrative
 {
     /**
@@ -49,4 +51,11 @@ interface Narrative
      * The datetime of when the event occurred.
      */
     public function occurredAt(): string;
+
+    /**
+     * Add a scope to this narrative.
+     *
+     * @param  array<string,string>  $scopes
+     */
+    public function scopedBy(array $scopes): ScopedNarrative;
 }

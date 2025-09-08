@@ -15,4 +15,8 @@ interface Book
 
     /** @return string[] */
     public function storylines(): array;
+
+    public function publish(Publisher $publisher): void;
+
+    public function isPublished(): bool;
 }

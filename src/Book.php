@@ -3,6 +3,7 @@
 namespace Narrative;
 
 use Narrative\Contracts\Narrative;
+use Narrative\Contracts\Publisher;
 
 class Book implements Contracts\Book
 {
@@ -10,6 +11,8 @@ class Book implements Contracts\Book
      * @var array<string, array<Narrative|ScopedNarrative>>
      */
     protected array $narratives = [];
+
+    protected bool $isPublished = false;
 
     public function write(Narrative|ScopedNarrative $narrative): static
     {
@@ -45,12 +48,20 @@ class Book implements Contracts\Book
      */
     public function storylines(): array
     {
-        $storylines = [];
+        return array_keys($this->narratives);
+    }
 
-        foreach ($this->narratives as $storyline => $narratives) {
-            $storylines[] = $storyline;
+    public function publish(Publisher $publisher): void
+    {
+        if ($this->isPublished) {
+            return;
         }
 
-        return $storylines;
+        $this->isPublished = $publisher->publish($this);
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->isPublished;
     }
 }

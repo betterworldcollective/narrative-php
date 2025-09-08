@@ -8,9 +8,11 @@ use InvalidArgumentException;
 use Narrative\Attributes\Context;
 use Narrative\Attributes\Name;
 use Narrative\Attributes\OccurredAt;
+use Narrative\Attributes\Slug;
 use Narrative\Attributes\Storylines;
 use Narrative\Contracts\Narrative;
 use Narrative\Exceptions\MissingContextException;
+use Narrative\ScopedNarrative;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -22,11 +24,9 @@ trait Narrator
     public static function slug(): ?string
     {
         $event = (new ReflectionClass(static::class))
-            ->getAttributes(Name::class);
+            ->getAttributes(Slug::class);
 
-        $slug = empty($event) ? null : $event[0]->newInstance()->slug;
-
-        return $slug === null ? null : Str::slug($slug);
+        return empty($event) ? null : $event[0]->newInstance()->slug;
     }
 
     public static function name(): string
@@ -116,5 +116,13 @@ trait Narrator
 
         return empty($storylines) ? ['default'] : $storylines[0]->newInstance()->storylines;
 
+    }
+
+    /**
+     * @param  array<string,string>  $scopes
+     */
+    public function scopedBy(array $scopes): ScopedNarrative
+    {
+        return new ScopedNarrative($scopes, $this);
     }
 }

@@ -2,43 +2,47 @@
 
 namespace Narrative;
 
+use Narrative\Contracts\Narrative;
 use Narrative\Contracts\Publisher;
 
-final class Scribe implements Publisher
+final class Scribe
 {
     public function __construct(
-        protected NarrativeService $narrativeService
+        protected Contracts\Book $book,
+        protected Publisher $publisher,
+        protected bool $autoPublish = true
     ) {}
 
-    public function publish(Contracts\Book $book): void
+    /**
+     * @param  array{
+     *     host:string|null,
+     *     default_storyline:string|null,
+     *     storylines: array<string, array{id:string|null, token:string|null}>|null,
+     *     default_publisher: class-string<Publisher>|null,
+     *     publishers: array<string, class-string<Publisher>>,
+     *     auto_publish: bool
+     * }  $config
+     */
+    public static function make(array $config): static
     {
-        foreach ($book->storylines() as $storyline) {
-            $occurrences = [];
+        $narrativeService = new NarrativeService($config);
 
-            foreach ($book->read($storyline) as $narrative) {
-                $scopes = null;
+        return new self(
+            new Book,
+            $narrativeService->getPublisher(),
+            $narrativeService->shouldAutoPublish()
+        );
+    }
 
-                if ($narrative instanceof ScopedNarrative) {
-                    $scopes = $narrative->scopes;
-                    $narrative = $narrative->narrative;
-                }
+    public function write(Narrative|ScopedNarrative $narrative): void
+    {
+        $this->book->write($narrative);
+    }
 
-                $occurrence = [
-                    'event' => $narrative::name(),
-                    'details' => $narrative->values(),
-                    'framing' => $narrative->framing(),
-                    'occurred_at' => $narrative->occurredAt(),
-                ];
-
-                if ($scopes !== null) {
-                    $occurrence['scopes'] = $scopes;
-                }
-
-                $occurrences[] = $occurrence;
-            }
-
-            $this->narrativeService->getStorylineConnector($storyline)
-                ->listen($occurrences);
+    public function __destruct()
+    {
+        if ($this->autoPublish) {
+            $this->book->publish($this->publisher);
         }
     }
 }

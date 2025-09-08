@@ -5,7 +5,7 @@ namespace Narrative\Attributes;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class Name
+class Slug
 {
-    public function __construct(public string $name) {}
+    public function __construct(public string $slug) {}
 }

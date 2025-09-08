@@ -4,5 +4,5 @@ namespace Narrative\Contracts;
 
 interface Publisher
 {
-    public function publish(Book $book): void;
+    public function publish(Book $book): bool;
 }
