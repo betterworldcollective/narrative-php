@@ -16,7 +16,10 @@
     "autoload": {
         "psr-4": {
             "Narrative\\": "src/"
-        }
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
