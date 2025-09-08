@@ -13,6 +13,7 @@ use Narrative\Attributes\Storylines;
 use Narrative\Contracts\Narrative;
 use Narrative\Exceptions\MissingContextException;
 use Narrative\ScopedNarrative;
+use PrinceJohn\Reflect\Reflect;
 use ReflectionClass;
 use ReflectionProperty;
 
@@ -28,40 +29,34 @@ trait Narrator
     /** @return string[]  */
     public static function storylines(): array
     {
-        $storylines = (new ReflectionClass(static::class))
-            ->getAttributes(Storylines::class);
+        $storylines = Reflect::class(static::class)->getAttributeInstance(Storylines::class);
 
-        return empty($storylines) ? ['default'] : $storylines[0]->newInstance()->storylines;
+        if ($storylines === null) {
+            return ['default'];
+        }
+
+        return $storylines->storylines;
     }
 
     public static function slug(): ?string
     {
-        $event = (new ReflectionClass(static::class))
-            ->getAttributes(Slug::class);
-
-        return empty($event) ? null : $event[0]->newInstance()->getSlug();
+        return Reflect::class(static::class)->getAttributeInstance(Slug::class)?->getSlug();
     }
 
     public static function name(): string
     {
-        $event = (new ReflectionClass(static::class))
-            ->getAttributes(Name::class);
+        $name = Reflect::class(static::class)->getAttributeInstance(Name::class);
 
-        return empty($event)
-            ? headline(between(static::class, '\\', 'Narrative'))
-            : $event[0]->newInstance()->name;
+        if ($name === null) {
+            return headline(between(static::class, '\\', 'Narrative'));
+        }
+
+        return $name->name;
     }
 
     public static function context(): string
     {
-        $context = (new ReflectionClass(static::class))
-            ->getAttributes(Context::class);
-
-        if (empty($context)) {
-            throw new MissingContextException;
-        }
-
-        return $context[0]->newInstance()->context;
+        return Reflect::class(static::class)->getOrFailAttributeInstance(Context::class)->context;
     }
 
     /** @return array<string,mixed> */
