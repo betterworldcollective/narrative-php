@@ -70,7 +70,7 @@ final class NarrativeService
         $name = $name === null ? array_value($this->config, 'default_publisher') : $name;
 
         /** @var string $class */
-        $class = array_value($this->config, "publishers{$name}");
+        $class = array_value($this->config, "publishers.{$name}");
 
         /** @var Publisher $publisher */
         $publisher = new $class;
