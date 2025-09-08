@@ -57,7 +57,7 @@ Scribe::make($config)
 
 Events written by the Scribe that is unrecognized by `Narrative Cloud` will be ignored. 
 Please make sure to register them first every time you create or update any Narrative object.
-You can accomplish this via the `Registrar`.  
+You can accomplish this via the `Registrar`.  **_(You will likely want to put this on a script you can run on your CI/CD.)_**
 
 ```php
 use Narrative\Registrar;
@@ -68,3 +68,4 @@ Registrar::make($config)->registerEvents([
     DonationReceived::class,
 ]);
 ```
+
