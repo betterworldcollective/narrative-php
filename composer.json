@@ -10,11 +10,17 @@
     ],
     "require": {
         "php": "^8.2",
-        "saloonphp/saloon": "^3.14"
+        "saloonphp/saloon": "^3.14",
+        "princejohnsantillan/reflect": "^1.1"
     },
     "autoload": {
         "psr-4": {
-            "BetterWorld\\NarrativePhp\\": "src/"
+            "Narrative\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "require-dev": {
@@ -23,6 +29,6 @@
     },
     "scripts": {
         "lint": "@php vendor/bin/pint",
-        "analyse": "@php vendor/bin/phpstan analyse"
+        "analyse": "@php vendor/bin/phpstan analyse --memory-limit=-1"
     }
 }
