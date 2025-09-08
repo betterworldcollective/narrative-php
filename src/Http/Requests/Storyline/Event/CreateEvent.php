@@ -1,6 +1,6 @@
 <?php
 
-namespace Narrative\Requests\Storyline\Event;
+namespace Narrative\Http\Requests\Storyline\Event;
 
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;

@@ -1,28 +1,32 @@
 <?php
 
-namespace Narrative\Requests\Storyline\Scope;
+namespace Narrative\Http\Requests\Storyline\Event;
 
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
 
-class UpdateScope extends Request implements HasBody
+class UpdateEvent extends Request implements HasBody
 {
     use HasJsonBody;
 
     protected Method $method = Method::PATCH;
 
+    /**
+     * @param  array<string,mixed>|null  $newDefinition
+     */
     public function __construct(
         protected string $slug,
         protected ?string $newSlug = null,
         protected ?string $newName = null,
-        protected ?string $newContext = null
+        protected ?string $newContext = null,
+        protected ?array $newDefinition = null
     ) {}
 
     public function resolveEndpoint(): string
     {
-        return "/scopes/{$this->slug}";
+        return "/events/{$this->slug}";
     }
 
     /** @return array<string,mixed> */
@@ -40,6 +44,10 @@ class UpdateScope extends Request implements HasBody
 
         if ($this->newContext !== null) {
             $body['context'] = $this->newContext;
+        }
+
+        if ($this->newDefinition !== null) {
+            $body['definition'] = $this->newDefinition;
         }
 
         return $body;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Narrative\Resources\Storyline;
+namespace Narrative\Http\Resources\Storyline;
 
-use Narrative\Requests\Storyline\Scope\Value\DeleteValues;
-use Narrative\Requests\Storyline\Scope\Value\UpsertValues;
+use Narrative\Http\Requests\Storyline\Scope\Value\DeleteValues;
+use Narrative\Http\Requests\Storyline\Scope\Value\UpsertValues;
 use Saloon\Http\BaseResource;
 
 class ScopeValueResource extends BaseResource

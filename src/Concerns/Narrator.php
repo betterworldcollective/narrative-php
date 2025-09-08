@@ -2,8 +2,8 @@
 
 namespace Narrative\Concerns;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
+use DateTime;
+use DateTimeZone;
 use InvalidArgumentException;
 use Narrative\Attributes\Context;
 use Narrative\Attributes\Name;
@@ -16,17 +16,30 @@ use Narrative\ScopedNarrative;
 use ReflectionClass;
 use ReflectionProperty;
 
+use function Narrative\Support\between;
+use function Narrative\Support\delimited_case;
+use function Narrative\Support\headline;
+
 /**
  * @phpstan-require-implements Narrative
  */
 trait Narrator
 {
+    /** @return string[]  */
+    public static function storylines(): array
+    {
+        $storylines = (new ReflectionClass(static::class))
+            ->getAttributes(Storylines::class);
+
+        return empty($storylines) ? ['default'] : $storylines[0]->newInstance()->storylines;
+    }
+
     public static function slug(): ?string
     {
         $event = (new ReflectionClass(static::class))
             ->getAttributes(Slug::class);
 
-        return empty($event) ? null : $event[0]->newInstance()->slug;
+        return empty($event) ? null : $event[0]->newInstance()->getSlug();
     }
 
     public static function name(): string
@@ -35,7 +48,7 @@ trait Narrator
             ->getAttributes(Name::class);
 
         return empty($event)
-            ? Str::of(static::class)->classBasename()->beforeLast('Narrative')->headline()->toString()
+            ? headline(between(static::class, '\\', 'Narrative'))
             : $event[0]->newInstance()->name;
     }
 
@@ -54,24 +67,24 @@ trait Narrator
     /** @return array<string,mixed> */
     public static function definitions(): array
     {
-        /** @var array<string, mixed> $definitions */
-        $definitions = collect((new ReflectionClass(static::class))->getProperties(ReflectionProperty::IS_PUBLIC))
-            ->filter(fn (ReflectionProperty $property) => (string) $property->getType() === 'string')
-            ->flatMap(function (ReflectionProperty $property) {
-                $context = $property->getAttributes(Context::class);
+        $definitions = [];
 
-                if (empty($context)) {
-                    throw new MissingContextException('Context attribute is required.');
-                }
+        foreach ((new ReflectionClass(static::class))->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+            if ((string) $property->getType() !== 'string') {
+                continue;
+            }
 
-                return [
-                    Str::snake($property->getName()) => [
-                        'type' => $context[0]->newInstance()->type->value,
-                        'context' => $context[0]->newInstance()->context,
-                    ],
-                ];
-            })
-            ->toArray();
+            $context = $property->getAttributes(Context::class);
+
+            if (empty($context)) {
+                throw new MissingContextException('Context attribute is required.');
+            }
+
+            $definitions[delimited_case($property->getName())] = [
+                'type' => $context[0]->newInstance()->type->value,
+                'context' => $context[0]->newInstance()->context,
+            ];
+        }
 
         return $definitions;
     }
@@ -79,11 +92,15 @@ trait Narrator
     /** @return array<string, mixed> */
     public function values(): array
     {
-        /** @var array<string,mixed> $values */
-        $values = collect((new ReflectionClass(static::class))->getProperties(ReflectionProperty::IS_PUBLIC))
-            ->filter(fn (ReflectionProperty $property) => (string) $property->getType() === 'string')
-            ->flatMap(fn (ReflectionProperty $property) => [Str::snake($property->getName()) => $property->getValue($this)])
-            ->toArray();
+        $values = [];
+
+        foreach ((new ReflectionClass(static::class))->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+            if ((string) $property->getType() !== 'string') {
+                continue;
+            }
+
+            $values[delimited_case($property->getName())] = $property->getValue($this);
+        }
 
         return $values;
     }
@@ -101,21 +118,12 @@ trait Narrator
             if (! empty($attributes)) {
                 $occurredAt = $property->getValue($this);
 
+                // TODO:: Check for valid date, throw custom exception on failure
                 return is_string($occurredAt) ? $occurredAt : throw new InvalidArgumentException('Value must be a string.');
             }
         }
 
-        return Carbon::now()->toDateTimeString();
-    }
-
-    /** @return string[]  */
-    public static function storylines(): array
-    {
-        $storylines = (new ReflectionClass(static::class))
-            ->getAttributes(Storylines::class);
-
-        return empty($storylines) ? ['default'] : $storylines[0]->newInstance()->storylines;
-
+        return (new DateTime(timezone: new DateTimeZone('UTC')))->format('Y-m-d H:i:s');
     }
 
     /**

@@ -1,16 +1,16 @@
 <?php
 
-namespace Narrative\Requests\Storyline\Scope;
+namespace Narrative\Http\Requests\Storyline\Event;
 
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
-class ListScopes extends Request
+class ListEvents extends Request
 {
     protected Method $method = Method::GET;
 
     public function resolveEndpoint(): string
     {
-        return '/scopes';
+        return '/events';
     }
 }

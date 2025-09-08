@@ -1,11 +1,11 @@
 <?php
 
-namespace Narrative\Requests\Storyline\Event;
+namespace Narrative\Http\Requests\Storyline\Scope;
 
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 
-class DeleteEvent extends Request
+class DeleteScope extends Request
 {
     protected Method $method = Method::DELETE;
 
@@ -15,6 +15,6 @@ class DeleteEvent extends Request
 
     public function resolveEndpoint(): string
     {
-        return "/events/{$this->slug}";
+        return "/scopes/{$this->slug}";
     }
 }

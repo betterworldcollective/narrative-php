@@ -1,11 +1,11 @@
 <?php
 
-namespace Narrative\Resources\Storyline;
+namespace Narrative\Http\Resources\Storyline;
 
-use Narrative\Requests\Storyline\Scope\CreateScope;
-use Narrative\Requests\Storyline\Scope\DeleteScope;
-use Narrative\Requests\Storyline\Scope\ListScopes;
-use Narrative\Requests\Storyline\Scope\UpdateScope;
+use Narrative\Http\Requests\Storyline\Scope\CreateScope;
+use Narrative\Http\Requests\Storyline\Scope\DeleteScope;
+use Narrative\Http\Requests\Storyline\Scope\ListScopes;
+use Narrative\Http\Requests\Storyline\Scope\UpdateScope;
 use Saloon\Http\BaseResource;
 
 class ScopeResource extends BaseResource

@@ -1,11 +1,11 @@
 <?php
 
-namespace Narrative\Resources\Storyline;
+namespace Narrative\Http\Resources\Storyline;
 
-use Narrative\Requests\Storyline\Event\CreateEvent;
-use Narrative\Requests\Storyline\Event\DeleteEvent;
-use Narrative\Requests\Storyline\Event\ListEvents;
-use Narrative\Requests\Storyline\Event\UpdateEvent;
+use Narrative\Http\Requests\Storyline\Event\CreateEvent;
+use Narrative\Http\Requests\Storyline\Event\DeleteEvent;
+use Narrative\Http\Requests\Storyline\Event\ListEvents;
+use Narrative\Http\Requests\Storyline\Event\UpdateEvent;
 use Saloon\Http\BaseResource;
 
 class EventResource extends BaseResource

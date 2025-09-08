@@ -1,10 +1,10 @@
 <?php
 
-namespace Narrative;
+namespace Narrative\Http;
 
-use Narrative\Requests\Storyline\Listener;
-use Narrative\Resources\Storyline\EventResource;
-use Narrative\Resources\Storyline\ScopeResource;
+use Narrative\Http\Requests\Storyline\Listener;
+use Narrative\Http\Resources\Storyline\EventResource;
+use Narrative\Http\Resources\Storyline\ScopeResource;
 use Saloon\Http\Auth\TokenAuthenticator;
 use Saloon\Http\Connector;
 

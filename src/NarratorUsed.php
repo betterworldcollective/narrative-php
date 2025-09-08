@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Fixtures;
+namespace Narrative;
 
 use Narrative\Attributes\Context;
 use Narrative\Attributes\Name;
@@ -23,8 +23,8 @@ final class NarratorUsed implements Narrative
         public string $message
     ) {}
 
-    public function framing(): ?string
-    {
-        return "[Narrator Message] {$this->message}";
-    }
+    //    public function framing(): ?string
+    //    {
+    //        return "[Narrator Message] {$this->message}";
+    //    }
 }

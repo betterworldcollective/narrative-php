@@ -3,6 +3,9 @@
 namespace Narrative;
 
 use Narrative\Contracts\Publisher;
+use Narrative\Http\Storyline;
+
+use function Narrative\Support\array_value;
 
 final class NarrativeService
 {
