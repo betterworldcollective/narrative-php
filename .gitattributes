@@ -1,3 +1,4 @@
+/tests
 .gitattributes
 .gitignore
 .phpstan.neon.dist

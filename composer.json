@@ -18,6 +18,11 @@
             "Narrative\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "require-dev": {
         "laravel/pint": "^1.24",
         "phpstan/phpstan": "^2.1"
