@@ -2,11 +2,28 @@
 
 namespace Narrative;
 
+use Narrative\Contracts\Publisher;
+
 final class Registrar implements Contracts\Registrar
 {
     public function __construct(
         protected NarrativeService $narrativeService
     ) {}
+
+    /**
+     * @param  array{
+     *     host:string|null,
+     *     default_storyline:string|null,
+     *     storylines: array<string, array{id:string|null, token:string|null}>|null,
+     *     default_publisher: class-string<Publisher>|null,
+     *     publishers: array<string, class-string<Publisher>>,
+     *     auto_publish: bool
+     * }  $config
+     */
+    public static function make(array $config): static
+    {
+        return new self(new NarrativeService($config));
+    }
 
     public function registerEvents(array $events): void
     {
