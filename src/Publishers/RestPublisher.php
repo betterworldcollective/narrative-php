@@ -27,7 +27,7 @@ class RestPublisher implements Publisher
                 }
 
                 $occurrence = [
-                    'event' => $narrative::name(),
+                    'event' => $narrative::slug(),
                     'details' => $narrative->values(),
                     'framing' => $narrative->framing(),
                     'occurred_at' => $narrative->occurredAt(),

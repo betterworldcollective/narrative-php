@@ -41,7 +41,9 @@ trait Narrator
 
     public static function slug(): ?string
     {
-        return Reflect::class(static::class)->getAttributeInstance(Slug::class)?->getSlug();
+        $slug = Reflect::class(static::class)->getAttributeInstance(Slug::class)?->getSlug();
+
+        return $slug ?? delimited_case(between(static::class, '\\', 'Narrative'), '-');
     }
 
     public static function name(): string
