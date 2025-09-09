@@ -34,9 +34,18 @@ final class Scribe
         );
     }
 
-    public function write(Narrative|ScopedNarrative $narrative): void
+    public function write(Narrative|ScopedNarrative $narrative): static
     {
         $this->book->write($narrative);
+
+        return $this;
+    }
+
+    public function publish(): static
+    {
+        $this->book->publish($this->publisher);
+
+        return $this;
     }
 
     public function __destruct()
