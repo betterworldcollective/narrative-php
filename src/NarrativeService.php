@@ -73,7 +73,7 @@ final class NarrativeService
         $class = array_value($this->config, "publishers.{$name}");
 
         /** @var Publisher $publisher */
-        $publisher = new $class;
+        $publisher = new $class($this);
 
         return $publisher;
     }
