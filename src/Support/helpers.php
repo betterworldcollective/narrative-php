@@ -34,7 +34,7 @@ function delimited_case(string $string, string $delimiter = '_'): string
     $string = strtolower($string);
 
     // Replace any non-alphanumeric characters with spaces
-    $string = (string) preg_replace('/[^a-z0-9]+/', ' ', $string);
+    $string = (string) preg_replace('/[^a-z0-9:]+/', ' ', $string);
 
     // Trim spaces at start/end and replace remaining spaces with delimiter
     $string = trim($string);
