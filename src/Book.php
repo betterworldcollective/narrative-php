@@ -12,7 +12,7 @@ class Book implements Contracts\Book
      */
     protected array $narratives = [];
 
-    protected bool $isPublished = false;
+    protected array $publishedPublishers = [];
 
     public function write(Narrative|ScopedNarrative $narrative): static
     {
@@ -53,15 +53,23 @@ class Book implements Contracts\Book
 
     public function publish(Publisher $publisher): void
     {
-        if ($this->isPublished) {
+        $publisherClass = get_class($publisher);
+        
+        if (isset($this->publishedPublishers[$publisherClass])) {
             return;
         }
 
-        $this->isPublished = $publisher->publish($this);
+        $this->publishedPublishers[$publisherClass] = $publisher->publish($this);
     }
 
     public function isPublished(): bool
     {
-        return $this->isPublished;
+        return !empty($this->publishedPublishers);
+    }
+
+    public function isPublishedBy(Publisher $publisher): bool
+    {
+        $publisherClass = get_class($publisher);
+        return isset($this->publishedPublishers[$publisherClass]);
     }
 }

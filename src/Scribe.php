@@ -7,11 +7,15 @@ use Narrative\Contracts\Publisher;
 
 final class Scribe
 {
+    protected array $publishers = [];
+
     public function __construct(
         protected Contracts\Book $book,
-        protected Publisher $publisher,
+        Publisher|array $publishers,
         protected bool $autoPublish = true
-    ) {}
+    ) {
+        $this->publishers = is_array($publishers) ? $publishers : [$publishers];
+    }
 
     /**
      * @param  array{
@@ -26,10 +30,17 @@ final class Scribe
     public static function make(array $config): static
     {
         $narrativeService = new NarrativeService($config);
+        
+        $publishers = [];
+        $publisherConfigs = $config['publishers'] ?? [];
+        
+        foreach ($publisherConfigs as $publisherClass) {
+            $publishers[] = new $publisherClass($narrativeService);
+        }
 
         return new self(
             new Book,
-            $narrativeService->getPublisher(),
+            $publishers,
             $narrativeService->shouldAutoPublish()
         );
     }
@@ -43,7 +54,9 @@ final class Scribe
 
     public function publish(): static
     {
-        $this->book->publish($this->publisher);
+        foreach ($this->publishers as $publisher) {
+            $this->book->publish($publisher);
+        }
 
         return $this;
     }
@@ -51,7 +64,14 @@ final class Scribe
     public function __destruct()
     {
         if ($this->autoPublish) {
-            $this->book->publish($this->publisher);
+            foreach ($this->publishers as $publisher) {
+                $this->book->publish($publisher);
+            }
         }
+    }
+
+    public function getPublishers(): array
+    {
+        return $this->publishers;
     }
 }

@@ -31,6 +31,11 @@ final class NarrativeService
         return $host;
     }
 
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
+
     /**
      * @return array{name:string, url:string, token:string}
      */
