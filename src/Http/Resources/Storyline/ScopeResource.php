@@ -6,6 +6,7 @@ use Narrative\Http\Requests\Storyline\Scope\CreateScope;
 use Narrative\Http\Requests\Storyline\Scope\DeleteScope;
 use Narrative\Http\Requests\Storyline\Scope\ListScopes;
 use Narrative\Http\Requests\Storyline\Scope\UpdateScope;
+use Narrative\Http\Requests\Storyline\Scope\UpsertScope;
 use Saloon\Http\BaseResource;
 
 class ScopeResource extends BaseResource
@@ -23,6 +24,15 @@ class ScopeResource extends BaseResource
         ?string $slug = null
     ): array {
         return $this->connector->send(new CreateScope($name, $context, $slug))->array();
+    }
+
+    /** @return mixed[] */
+    public function upsert(
+        string $name,
+        string $context,
+        ?string $slug = null
+    ): array {
+        return $this->connector->send(new UpsertScope($name, $context, $slug))->array();
     }
 
     /** @return mixed[] */

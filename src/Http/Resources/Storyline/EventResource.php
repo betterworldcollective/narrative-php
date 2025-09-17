@@ -6,6 +6,7 @@ use Narrative\Http\Requests\Storyline\Event\CreateEvent;
 use Narrative\Http\Requests\Storyline\Event\DeleteEvent;
 use Narrative\Http\Requests\Storyline\Event\ListEvents;
 use Narrative\Http\Requests\Storyline\Event\UpdateEvent;
+use Narrative\Http\Requests\Storyline\Event\UpsertEvent;
 use Saloon\Http\BaseResource;
 
 class EventResource extends BaseResource
@@ -27,6 +28,19 @@ class EventResource extends BaseResource
         ?string $slug = null
     ): array {
         return $this->connector->send(new CreateEvent($name, $context, $definition, $slug))->array();
+    }
+
+    /**
+     * @param  array<string,mixed>  $definition
+     * @return mixed[]
+     */
+    public function upsert(
+        string $name,
+        string $context,
+        ?array $definition = null,
+        ?string $slug = null
+    ): array {
+        return $this->connector->send(new UpsertEvent($name, $context, $definition, $slug))->array();
     }
 
     /**

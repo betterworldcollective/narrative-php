@@ -12,7 +12,7 @@ return [
         ],
     ],
 
-    'default_publisher' => 'narrative-rest',
+    'default_publisher' => ['narrative-rest', 'mixpanel'],
 
     'publishers' => [
         'narrative-rest' => [
