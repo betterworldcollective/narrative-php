@@ -32,7 +32,7 @@ final class Registrar implements Contracts\Registrar
                 $this->narrativeService
                     ->getStorylineConnector($storyline)
                     ->events()
-                    ->create($event::name(), $event::context(), $event::definitions(), $event::slug());
+                    ->upsert($event::name(), $event::context(), $event::definitions(), $event::slug());
             }
         }
 
@@ -50,7 +50,7 @@ final class Registrar implements Contracts\Registrar
 
                 $storylineConnector
                     ->scopes()
-                    ->create($scopeName, $scope::context());
+                    ->upsert($scopeName, $scope::context());
 
                 $storylineConnector
                     ->scopes()
