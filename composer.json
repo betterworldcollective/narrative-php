@@ -12,7 +12,7 @@
         "php": "^8.2",
         "saloonphp/saloon": "^3.14",
         "princejohnsantillan/reflect": "^1.1",
-        "mixpanel/mixpanel-php" : "2.*"
+        "mixpanel/mixpanel-php" : "^2.11"
     },
     "autoload": {
         "psr-4": {

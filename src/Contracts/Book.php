@@ -16,7 +16,10 @@ interface Book
     /** @return string[] */
     public function storylines(): array;
 
-    public function publish(Publisher $publisher): void;
+    /**
+     * @param  Publisher|Publisher[]  $publisher
+     */
+    public function publish(Publisher|array $publisher): void;
 
     public function isPublished(): bool;
 }

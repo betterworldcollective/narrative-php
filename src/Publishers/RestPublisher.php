@@ -9,8 +9,12 @@ use Narrative\ScopedNarrative;
 
 class RestPublisher implements Publisher
 {
+    /**
+     * @param  array<string,mixed>  $options
+     */
     public function __construct(
-        protected NarrativeService $narrativeService
+        protected NarrativeService $narrativeService,
+        protected array $options = [],
     ) {}
 
     public function publish(Book $book): bool
@@ -42,7 +46,7 @@ class RestPublisher implements Publisher
 
             // TODO: Track failed publishing
             $this->narrativeService->getStorylineConnector($storyline)
-                ->listen($occurrences);
+                ->write($occurrences);
         }
 
         return true;

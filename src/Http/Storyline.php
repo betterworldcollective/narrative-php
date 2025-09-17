@@ -2,7 +2,8 @@
 
 namespace Narrative\Http;
 
-use Narrative\Http\Requests\Storyline\Listener;
+use Narrative\Http\Requests\Storyline\Reader;
+use Narrative\Http\Requests\Storyline\Writer;
 use Narrative\Http\Resources\Storyline\EventResource;
 use Narrative\Http\Resources\Storyline\ScopeResource;
 use Saloon\Http\Auth\TokenAuthenticator;
@@ -43,8 +44,14 @@ class Storyline extends Connector
     /**
      * @param  mixed[]  $occurrences
      */
-    public function listen(array $occurrences): bool
+    public function write(array $occurrences): bool
     {
-        return $this->send(new Listener($occurrences))->successful();
+        return $this->send(new Writer($occurrences))->successful();
+    }
+
+    /** @return mixed[] */
+    public function read(int $page = 1): array
+    {
+        return $this->send(new Reader($page))->array();
     }
 }

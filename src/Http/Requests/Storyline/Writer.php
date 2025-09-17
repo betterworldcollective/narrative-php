@@ -7,7 +7,7 @@ use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Traits\Body\HasJsonBody;
 
-class Listener extends Request implements HasBody
+class Writer extends Request implements HasBody
 {
     use HasJsonBody;
 
@@ -22,7 +22,7 @@ class Listener extends Request implements HasBody
 
     public function resolveEndpoint(): string
     {
-        return '/listen';
+        return '/write';
     }
 
     /**

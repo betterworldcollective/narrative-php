@@ -7,40 +7,38 @@ use Narrative\Contracts\Publisher;
 
 final class Scribe
 {
-    protected array $publishers = [];
-
+    /**
+     * @param  Publisher|Publisher[]  $publisher
+     */
     public function __construct(
         protected Contracts\Book $book,
-        Publisher|array $publishers,
+        protected Publisher|array $publisher,
         protected bool $autoPublish = true
-    ) {
-        $this->publishers = is_array($publishers) ? $publishers : [$publishers];
-    }
+    ) {}
 
     /**
      * @param  array{
-     *     host:string|null,
-     *     default_storyline:string|null,
-     *     storylines: array<string, array{id:string|null, token:string|null}>|null,
-     *     default_publisher: class-string<Publisher>|null,
-     *     publishers: array<string, class-string<Publisher>>,
+     *     host:string,
+     *     default_storyline:string,
+     *     storylines: array<string, array{id:string, token:string}>,
+     *     default_publisher: string|string[],
+     *     publishers: array<string, array{class:class-string<Publisher>, option:array<string,mixed>}>,
      *     auto_publish: bool
      * }  $config
      */
     public static function make(array $config): static
     {
         $narrativeService = new NarrativeService($config);
-        
-        $publishers = [];
-        $publisherConfigs = $config['publishers'] ?? [];
-        
-        foreach ($publisherConfigs as $publisherClass) {
-            $publishers[] = new $publisherClass($narrativeService);
-        }
+
+        $defaultPublisher = $narrativeService->getDefaultPublisher();
+
+        $publisher = is_array($defaultPublisher)
+            ? $narrativeService->getPublishers($defaultPublisher)
+            : $narrativeService->getPublisher($defaultPublisher);
 
         return new self(
             new Book,
-            $publishers,
+            $publisher,
             $narrativeService->shouldAutoPublish()
         );
     }
@@ -54,9 +52,7 @@ final class Scribe
 
     public function publish(): static
     {
-        foreach ($this->publishers as $publisher) {
-            $this->book->publish($publisher);
-        }
+        $this->book->publish($this->publisher);
 
         return $this;
     }
@@ -64,14 +60,7 @@ final class Scribe
     public function __destruct()
     {
         if ($this->autoPublish) {
-            foreach ($this->publishers as $publisher) {
-                $this->book->publish($publisher);
-            }
+            $this->book->publish($this->publisher);
         }
-    }
-
-    public function getPublishers(): array
-    {
-        return $this->publishers;
     }
 }

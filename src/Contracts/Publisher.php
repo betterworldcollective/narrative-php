@@ -6,7 +6,10 @@ use Narrative\NarrativeService;
 
 interface Publisher
 {
-    public function __construct(NarrativeService $narrativeService);
+    /**
+     * @param  array<string,mixed>  $options
+     */
+    public function __construct(NarrativeService $narrativeService, array $options = []);
 
     public function publish(Book $book): bool;
 }

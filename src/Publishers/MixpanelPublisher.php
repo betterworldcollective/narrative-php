@@ -3,76 +3,53 @@
 namespace Narrative\Publishers;
 
 use Exception;
-use InvalidArgumentException;
 use Mixpanel;
 use Narrative\Contracts\Book;
 use Narrative\Contracts\Publisher;
-use Narrative\Exceptions\MissingArrayKeyException;
 use Narrative\NarrativeService;
 use Narrative\ScopedNarrative;
 
-use function Narrative\Support\array_value;
-
 class MixpanelPublisher implements Publisher
 {
-    protected ?Mixpanel $mixpanel = null;
-
-    public function __construct(
-        protected NarrativeService $narrativeService
-    ) {}
+    protected Mixpanel $mixpanel;
 
     /**
-     * @throws MissingArrayKeyException
+     * @param  array<string,mixed>  $options
      */
-    protected function getMixpanel(): Mixpanel
-    {
-        if ($this->mixpanel === null) {
-            $token = array_value($this->narrativeService->getConfig(), 'mix_panel_token');
-            
-            if (!$token) {
-                throw new InvalidArgumentException('Mixpanel token is required but not configured. Set mix_panel_token in config.');
-            }
-
-            $this->mixpanel = Mixpanel::getInstance(token: $token);
-        }
-
-        return $this->mixpanel;
+    public function __construct(
+        protected NarrativeService $narrativeService,
+        protected array $options = []
+    ) {
+        $this->mixpanel = Mixpanel::getInstance($options['token']);
     }
 
-    /**
-     * @throws MissingArrayKeyException
-     */
     public function publish(Book $book): bool
     {
-        $mixpanel = $this->getMixpanel();
+        foreach ($book->read() as $narrative) {
+            $scopes = null;
 
-        foreach ($book->storylines() as $storyline) {
-            foreach ($book->read($storyline) as $narrative) {
-                $scopes = null;
+            if ($narrative instanceof ScopedNarrative) {
+                $scopes = $narrative->scopes;
+                $narrative = $narrative->narrative;
+            }
 
-                if ($narrative instanceof ScopedNarrative) {
-                    $scopes = $narrative->scopes;
-                    $narrative = $narrative->narrative;
-                }
+            try {
+                if ($scopes !== null && isset($scopes['user_id']) && is_string($scopes['user_id'])) {
+                    $userId = $scopes['user_id'];
+                    $this->mixpanel->identify(user_id: $userId);
 
-                try {
-                    if ($scopes && isset($scopes['user_id'])) {
-                        $userId = $scopes['user_id'];
-                        $mixpanel->identify(user_id: $userId);
-                        
-                        if (isset($scopes['properties']) && is_array($scopes['properties'])) {
-                            $mixpanel->people->setOnce($userId, $scopes['properties']);
-                        }
+                    if (isset($scopes['properties']) && is_array($scopes['properties'])) {
+                        $this->mixpanel->people->setOnce($userId, $scopes['properties']);
                     }
-
-                    $mixpanel->track(
-                        event: $narrative->slug(),
-                        properties: $narrative->values()
-                    );
-
-                } catch (Exception $e) {
-                    error_log("Mixpanel tracking failed: " . $e->getMessage());
                 }
+
+                $this->mixpanel->track(
+                    event: (string) $narrative::slug(),
+                    properties: $narrative->values()
+                );
+
+            } catch (Exception $e) {
+                error_log('Mixpanel tracking failed: '.$e->getMessage());
             }
         }
 
