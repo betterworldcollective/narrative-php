@@ -33,7 +33,7 @@ trait Narrator
         $storylines = Reflect::class(static::class)->getAttributeInstance(Storylines::class);
 
         if ($storylines === null) {
-            return ['default'];
+            return ['main'];
         }
 
         return $storylines->storylines;
