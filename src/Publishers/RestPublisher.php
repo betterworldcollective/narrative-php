@@ -42,7 +42,7 @@ class RestPublisher implements Publisher
 
             // TODO: Track failed publishing
             $this->narrativeService->getStorylineConnector($storyline)
-                ->listen($occurrences);
+                ->write($occurrences);
         }
 
         return true;

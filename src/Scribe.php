@@ -7,9 +7,12 @@ use Narrative\Contracts\Publisher;
 
 final class Scribe
 {
+    /**
+     * @param  Publisher|array<Publisher>  $publisher
+     */
     public function __construct(
         protected Contracts\Book $book,
-        protected Publisher $publisher,
+        protected Publisher|array $publisher,
         protected bool $autoPublish = true
     ) {}
 
