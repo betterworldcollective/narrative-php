@@ -1,15 +1,14 @@
 <?php
 
 return [
-
     'host' => 'https://narrative.cloud/api',
 
     'default_storyline' => 'main',
 
     'storylines' => [
         'main' => [
-            'id' => '',
-            'token' => '',
+            'id' => 'your-storyline-id',
+            'token' => 'your-storyline-token',
         ],
     ],
 
@@ -23,7 +22,7 @@ return [
         'mixpanel' => [
             'class' => \Narrative\Publishers\MixpanelPublisher::class,
             'options' => [
-                'token' => '',
+                'token' => 'your-mixpanel-token',
             ],
         ],
     ],
