@@ -7,7 +7,9 @@ use Narrative\Contracts\Narrative;
 class ScopedNarrative
 {
     /**
-     * @param  array<string,string>  $scopes
+     * NOTE: Narrative will only use array<string,string> type of scopes.
+     *
+     * @param  array<string,string|array<mixed>>  $scopes
      */
     public function __construct(public array $scopes, public Narrative $narrative) {}
 }
