@@ -25,7 +25,7 @@ final class Registrar implements Contracts\Registrar
         return new self(new NarrativeService($config));
     }
 
-    public function registerEvents(array $events): void
+    public function registerEvents(array $events): static
     {
         foreach ($events as $event) {
             foreach ($event::storylines() as $storyline) {
@@ -35,9 +35,11 @@ final class Registrar implements Contracts\Registrar
                     ->create($event::name(), $event::context(), $event::definitions(), $event::slug());
             }
         }
+
+        return $this;
     }
 
-    public function registerScopes(array $scopes): void
+    public function registerScopes(array $scopes): static
     {
         foreach ($scopes as $scope) {
             $scopeName = $scope::name();
@@ -56,5 +58,7 @@ final class Registrar implements Contracts\Registrar
                     ->upsert($scopeName, (new $scope)->values());
             }
         }
+
+        return $this;
     }
 }

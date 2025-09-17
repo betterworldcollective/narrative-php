@@ -7,10 +7,10 @@ interface Registrar
     /**
      * @param  class-string<Narrative>[]  $events
      */
-    public function registerEvents(array $events): void;
+    public function registerEvents(array $events): static;
 
     /**
      * @param  class-string<Scope>[]  $scopes
      */
-    public function registerScopes(array $scopes): void;
+    public function registerScopes(array $scopes): static;
 }
