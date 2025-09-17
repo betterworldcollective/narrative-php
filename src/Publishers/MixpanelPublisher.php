@@ -60,22 +60,14 @@ class MixpanelPublisher implements Publisher
                         $userId = $scopes['user_id'];
                         $mixpanel->identify(user_id: $userId);
                         
-                        // Use properties directly from scopes
                         if (isset($scopes['properties']) && is_array($scopes['properties'])) {
                             $mixpanel->people->setOnce($userId, $scopes['properties']);
                         }
                     }
 
-                    $eventProperties = array_merge(
-                        $narrative->values(),
-                        [
-                            'occurred_at' => $narrative->occurredAt(),
-                        ]
-                    );
-
                     $mixpanel->track(
                         event: $narrative->slug(),
-                        properties: $eventProperties
+                        properties: $narrative->values()
                     );
 
                 } catch (Exception $e) {
