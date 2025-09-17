@@ -12,11 +12,11 @@ final class Registrar implements Contracts\Registrar
 
     /**
      * @param  array{
-     *     host:string|null,
-     *     default_storyline:string|null,
-     *     storylines: array<string, array{id:string|null, token:string|null}>|null,
-     *     default_publisher: class-string<Publisher>|null,
-     *     publishers: array<string, class-string<Publisher>>,
+     *     host:string,
+     *     default_storyline:string,
+     *     storylines: array<string, array{id:string, token:string}>,
+     *     default_publisher: string|string[],
+     *     publishers: array<string, array{class:class-string<Publisher>, option:array<string,mixed>}>,
      *     auto_publish: bool
      * }  $config
      */

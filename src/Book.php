@@ -59,7 +59,7 @@ class Book implements Contracts\Book
     }
 
     /**
-     * @param  Publisher|array<Publisher>  $publisher
+     * @param  Publisher|Publisher[]  $publisher
      */
     public function publish(Publisher|array $publisher): void
     {

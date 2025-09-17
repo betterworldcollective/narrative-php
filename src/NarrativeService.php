@@ -11,11 +11,11 @@ final class NarrativeService
 {
     /**
      * @param  array{
-     *     host:string|null,
-     *     default_storyline:string|null,
-     *     storylines: array<string, array{id:string|null, token:string|null}>|null,
-     *     default_publisher: class-string<Publisher>|null,
-     *     publishers: array<string, class-string<Publisher>>,
+     *     host:string,
+     *     default_storyline:string,
+     *     storylines: array<string, array{id:string, token:string}>,
+     *     default_publisher: string|string[],
+     *     publishers: array<string, array{class:class-string<Publisher>, option:array<string,mixed>}>,
      *     auto_publish: bool
      * }  $config
      */
@@ -34,7 +34,7 @@ final class NarrativeService
     /**
      * @return array{name:string, url:string, token:string}
      */
-    public function getStoryline(?string $name = null): array
+    private function getStoryline(?string $name = null): array
     {
         /** @var string $name */
         $name = $name === null ? array_value($this->config, 'default_storyline') : $name;
@@ -64,18 +64,42 @@ final class NarrativeService
         return new Storyline($storyline['url'], $storyline['token']);
     }
 
-    public function getPublisher(?string $name = null): Publisher
+    /** @return string|string[] */
+    public function getDefaultPublisher(): string|array
     {
-        /** @var class-string<Publisher> $name */
-        $name = $name === null ? array_value($this->config, 'default_publisher') : $name;
+        /** @var string|string[] $default */
+        $default = array_value($this->config, 'default_publisher');
 
-        /** @var string $class */
-        $class = array_value($this->config, "publishers.{$name}");
+        return $default;
+    }
+
+    public function getPublisher(string $name): Publisher
+    {
+        /** @var class-string<Publisher> $class */
+        $class = array_value($this->config, "publishers.{$name}.class");
+
+        /** @var array<string,mixed> $options */
+        $options = array_value($this->config, "publishers.{$name}.options");
 
         /** @var Publisher $publisher */
-        $publisher = new $class($this);
+        $publisher = new $class($this, $options);
 
         return $publisher;
+    }
+
+    /**
+     * @param  string[]  $names
+     * @return Publisher[]
+     */
+    public function getPublishers(array $names): array
+    {
+        $publishers = [];
+
+        foreach ($names as $name) {
+            $publishers[] = $this->getPublisher($name);
+        }
+
+        return $publishers;
     }
 
     public function shouldAutoPublish(): bool

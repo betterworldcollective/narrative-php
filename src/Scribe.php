@@ -8,7 +8,7 @@ use Narrative\Contracts\Publisher;
 final class Scribe
 {
     /**
-     * @param  Publisher|array<Publisher>  $publisher
+     * @param  Publisher|Publisher[]  $publisher
      */
     public function __construct(
         protected Contracts\Book $book,
@@ -18,11 +18,11 @@ final class Scribe
 
     /**
      * @param  array{
-     *     host:string|null,
-     *     default_storyline:string|null,
-     *     storylines: array<string, array{id:string|null, token:string|null}>|null,
-     *     default_publisher: class-string<Publisher>|null,
-     *     publishers: array<string, class-string<Publisher>>,
+     *     host:string,
+     *     default_storyline:string,
+     *     storylines: array<string, array{id:string, token:string}>,
+     *     default_publisher: string|string[],
+     *     publishers: array<string, array{class:class-string<Publisher>, option:array<string,mixed>}>,
      *     auto_publish: bool
      * }  $config
      */
@@ -30,9 +30,15 @@ final class Scribe
     {
         $narrativeService = new NarrativeService($config);
 
+        $defaultPublisher = $narrativeService->getDefaultPublisher();
+
+        $publisher = is_array($defaultPublisher)
+            ? $narrativeService->getPublishers($defaultPublisher)
+            : $narrativeService->getPublisher($defaultPublisher);
+
         return new self(
             new Book,
-            $narrativeService->getPublisher(),
+            $publisher,
             $narrativeService->shouldAutoPublish()
         );
     }
