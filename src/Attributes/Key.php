@@ -7,11 +7,11 @@ use Attribute;
 use function Narrative\Support\delimited_case;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_PROPERTY)]
-class Slug
+class Key
 {
     public function __construct(protected string $slug) {}
 
-    public function getSlug(): string
+    public function getKey(): string
     {
         return delimited_case($this->slug, '-', '/[^a-z0-9:]+/');
     }

@@ -2,61 +2,75 @@
 
 namespace Narrative;
 
+use Narrative\Contracts\Narrative;
 use Narrative\Contracts\Publisher;
+use Narrative\Contracts\Scope;
 
-final class Registrar implements Contracts\Registrar
+final class Registrar
 {
-    public function __construct(
-        protected NarrativeService $narrativeService
-    ) {}
+    protected NarrativeService $narrativeService;
 
     /**
      * @param  array{
-     *     host:string,
-     *     default_storyline:string,
-     *     storylines: array<string, array{id:string, token:string}>,
-     *     default_publisher: string|string[],
-     *     publishers: array<string, array{class:class-string<Publisher>, option:array<string,mixed>}>,
+     *     publishers: array<string,array{class:class-string<Publisher>,options:array<string,mixed>}>,
+     *     default_book: string,
+     *     books: array<string, array{publishers: string[]}>,
+     *     auto_publish: bool
+     * }  $config
+     */
+    public function __construct(
+        array $config
+    ) {
+        $this->narrativeService = new NarrativeService($config);
+    }
+
+    /**
+     * @param  array{
+     *     publishers: array<string,array{class:class-string<Publisher>,options:array<string,mixed>}>,
+     *     default_book: string,
+     *     books: array<string, array{publishers: string[]}>,
      *     auto_publish: bool
      * }  $config
      */
     public static function make(array $config): static
     {
-        return new self(new NarrativeService($config));
+        return new self($config);
     }
 
-    public function registerEvents(array $events): static
+    /**
+     * @param  class-string<Narrative>[]  $events
+     */
+    public function registerEvents(array $events, string $publisher): static
     {
         foreach ($events as $event) {
-            foreach ($event::storylines() as $storyline) {
-                $this->narrativeService
-                    ->getStorylineConnector($storyline)
-                    ->events()
-                    ->upsert($event::name(), $event::context(), $event::definitions(), $event::slug());
-            }
+            $this->narrativeService
+                ->getStoryline($publisher)
+                ->events()
+                ->upsert($event::name(), $event::context(), $event::definitions(), $event::key());
         }
 
         return $this;
     }
 
-    public function registerScopes(array $scopes): static
+    /**
+     * @param  class-string<Scope>[]  $scopes
+     */
+    public function registerScopes(array $scopes, string $publisher): static
     {
         foreach ($scopes as $scope) {
             $scopeName = $scope::name();
 
-            foreach ($scope::storylines() as $storyline) {
-                $storylineConnector = $this->narrativeService
-                    ->getStorylineConnector($storyline);
+            $storylineConnector = $this->narrativeService
+                ->getStoryline($publisher);
 
-                $storylineConnector
-                    ->scopes()
-                    ->upsert($scopeName, $scope::context());
+            $storylineConnector
+                ->scopes()
+                ->upsert($scopeName, $scope::context());
 
-                $storylineConnector
-                    ->scopes()
-                    ->values()
-                    ->upsert($scopeName, (new $scope)->values());
-            }
+            $storylineConnector
+                ->scopes()
+                ->values()
+                ->upsert($scopeName, (new $scope)->values());
         }
 
         return $this;

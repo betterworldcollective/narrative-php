@@ -11,15 +11,10 @@ interface Book
     /**
      * @return array<Narrative|ScopedNarrative>
      */
-    public function read(?string $storyline = null): array;
+    public function read(): array;
 
-    /** @return array<string|null> */
-    public function storylines(): array;
+    /** @return Publisher[] */
+    public function publishers(): array;
 
-    /**
-     * @param  Publisher|Publisher[]  $publisher
-     */
-    public function publish(Publisher|array $publisher): void;
-
-    public function isPublished(): bool;
+    public function publish(): void;
 }

@@ -4,11 +4,11 @@ namespace Narrative\Concerns;
 
 use DateTime;
 use DateTimeZone;
+use Narrative\Attributes\Books;
 use Narrative\Attributes\Context;
+use Narrative\Attributes\Key;
 use Narrative\Attributes\Name;
 use Narrative\Attributes\OccurredAt;
-use Narrative\Attributes\Slug;
-use Narrative\Attributes\Storylines;
 use Narrative\Contracts\Narrative;
 use Narrative\Exceptions\InvalidDatetimeStringException;
 use Narrative\Exceptions\MissingContextException;
@@ -28,22 +28,22 @@ use function Narrative\Support\isValidDateTime;
 trait Narrator
 {
     /** @return array<string|null>  */
-    public static function storylines(): array
+    public static function books(): array
     {
-        $storylines = Reflect::class(static::class)->getAttributeInstance(Storylines::class);
+        $books = Reflect::class(static::class)->getAttributeInstance(Books::class);
 
-        if ($storylines === null) {
+        if ($books === null) {
             return [null];
         }
 
-        return $storylines->storylines;
+        return $books->books;
     }
 
-    public static function slug(): ?string
+    public static function key(): ?string
     {
-        $slug = Reflect::class(static::class)->getAttributeInstance(Slug::class)?->getSlug();
+        $key = Reflect::class(static::class)->getAttributeInstance(Key::class)?->getKey();
 
-        return $slug ?? delimited_case(between(static::class, '\\', 'Narrative'), '-', '/[^a-z0-9:]+/');
+        return $key ?? delimited_case(between(static::class, '\\', 'Narrative'), '-', '/[^a-z0-9:]+/');
     }
 
     public static function name(): string
@@ -78,10 +78,10 @@ trait Narrator
                 throw new MissingContextException('[Context] attribute is missing.');
             }
 
-            $slug = ($property->getAttributes(Slug::class)[0] ?? null)?->newInstance()->getSlug()
+            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance()->getKey()
                 ?? delimited_case($property->getName());
 
-            $definitions[$slug] = [
+            $definitions[$key] = [
                 'type' => $context[0]->newInstance()->type->value,
                 'context' => $context[0]->newInstance()->context,
             ];
@@ -100,10 +100,10 @@ trait Narrator
                 continue;
             }
 
-            $slug = ($property->getAttributes(Slug::class)[0] ?? null)?->newInstance()->getSlug()
+            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance()->getKey()
                 ?? delimited_case($property->getName());
 
-            $values[$slug] = $property->getValue($this);
+            $values[$key] = $property->getValue($this);
         }
 
         return $values;

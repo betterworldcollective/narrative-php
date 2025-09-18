@@ -7,60 +7,57 @@ use Narrative\Contracts\Publisher;
 
 final class Scribe
 {
-    /**
-     * @param  Publisher|Publisher[]  $publisher
-     */
-    public function __construct(
-        protected Contracts\Book $book,
-        protected Publisher|array $publisher,
-        protected bool $autoPublish = true
-    ) {}
+    protected NarrativeService $narrativeService;
 
     /**
      * @param  array{
-     *     host:string,
-     *     default_storyline:string,
-     *     storylines: array<string, array{id:string, token:string}>,
-     *     default_publisher: string|string[],
-     *     publishers: array<string, array{class:class-string<Publisher>, option:array<string,mixed>}>,
+     *     publishers: array<string,array{class:class-string<Publisher>,options:array<string,mixed>}>,
+     *     default_book: string,
+     *     books: array<string, array{publishers: string[]}>,
+     *     auto_publish: bool
+     * }  $config
+     */
+    public function __construct(
+        array $config
+    ) {
+        $this->narrativeService = new NarrativeService($config);
+    }
+
+    /**
+     * @param  array{
+     *     publishers: array<string,array{class:class-string<Publisher>,options:array<string,mixed>}>,
+     *     default_book: string,
+     *     books: array<string, array{publishers: string[]}>,
      *     auto_publish: bool
      * }  $config
      */
     public static function make(array $config): static
     {
-        $narrativeService = new NarrativeService($config);
-
-        $defaultPublisher = $narrativeService->getDefaultPublisher();
-
-        $publisher = is_array($defaultPublisher)
-            ? $narrativeService->getPublishers($defaultPublisher)
-            : $narrativeService->getPublisher($defaultPublisher);
-
-        return new self(
-            new Book,
-            $publisher,
-            $narrativeService->shouldAutoPublish()
-        );
+        return new self($config);
     }
 
     public function write(Narrative|ScopedNarrative $narrative): static
     {
-        $this->book->write($narrative);
+        $baseNarrative = $narrative instanceof ScopedNarrative ? $narrative->narrative : $narrative;
+
+        foreach ($baseNarrative::books() as $book) {
+            $this->narrativeService->getBook($book)->write($narrative);
+        }
 
         return $this;
     }
 
-    public function publish(): static
+    public function publish(): void
     {
-        $this->book->publish($this->publisher);
-
-        return $this;
+        foreach ($this->narrativeService->getBooks() as $book) {
+            $book->publish();
+        }
     }
 
     public function __destruct()
     {
-        if ($this->autoPublish) {
-            $this->book->publish($this->publisher);
+        if ($this->narrativeService->shouldAutoPublish()) {
+            $this->publish();
         }
     }
 }

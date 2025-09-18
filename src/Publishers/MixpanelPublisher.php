@@ -9,6 +9,8 @@ use Narrative\Contracts\Publisher;
 use Narrative\NarrativeService;
 use Narrative\ScopedNarrative;
 
+use function Narrative\Support\array_value;
+
 class MixpanelPublisher implements Publisher
 {
     protected Mixpanel $mixpanel;
@@ -20,7 +22,10 @@ class MixpanelPublisher implements Publisher
         protected NarrativeService $narrativeService,
         protected array $options = []
     ) {
-        $this->mixpanel = Mixpanel::getInstance($options['token']);
+        /** @var string $token */
+        $token = array_value($this->options, 'token');
+
+        $this->mixpanel = Mixpanel::getInstance($token);
     }
 
     public function publish(Book $book): bool
@@ -44,7 +49,7 @@ class MixpanelPublisher implements Publisher
                 }
 
                 $this->mixpanel->track(
-                    event: (string) $narrative::slug(),
+                    event: (string) $narrative::key(),
                     properties: $narrative->values()
                 );
 
