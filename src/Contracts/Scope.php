@@ -4,12 +4,7 @@ namespace Narrative\Contracts;
 
 interface Scope
 {
-    /**
-     * The storylines that the scope belongs to.
-     *
-     * @return string[]
-     */
-    public static function storylines(): array;
+    public static function key(): string;
 
     public static function name(): string;
 

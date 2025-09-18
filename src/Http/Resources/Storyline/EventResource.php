@@ -18,29 +18,29 @@ class EventResource extends BaseResource
     }
 
     /**
-     * @param  array<string,mixed>  $definition
+     * @param  array<string,mixed>  $definitions
      * @return mixed[]
      */
     public function create(
         string $name,
         string $context,
-        ?array $definition = null,
+        ?array $definitions = null,
         ?string $slug = null
     ): array {
-        return $this->connector->send(new CreateEvent($name, $context, $definition, $slug))->array();
+        return $this->connector->send(new CreateEvent($name, $context, $definitions, $slug))->array();
     }
 
     /**
-     * @param  array<string,mixed>  $definition
+     * @param  array<string,mixed>  $definitions
      * @return mixed[]
      */
     public function upsert(
         string $name,
         string $context,
-        ?array $definition = null,
+        ?array $definitions = null,
         ?string $slug = null
     ): array {
-        return $this->connector->send(new UpsertEvent($name, $context, $definition, $slug))->array();
+        return $this->connector->send(new UpsertEvent($name, $context, $definitions, $slug))->array();
     }
 
     /**

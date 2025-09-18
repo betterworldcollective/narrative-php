@@ -5,7 +5,7 @@ return [
         'narrative-api' => [
             'class' => \Narrative\Publishers\NarrativeApiPublisher::class,
             'options' => [
-                'host' => 'https://narrative.cloud',
+                'host' => 'https://narrative.cloud/api',
                 'storyline_id' => 'your-storyline-id',
                 'storyline_token' => 'your-storyline-token',
             ],

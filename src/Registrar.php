@@ -58,6 +58,7 @@ final class Registrar
     public function registerScopes(array $scopes, string $publisher): static
     {
         foreach ($scopes as $scope) {
+            $scopeKey = $scope::key();
             $scopeName = $scope::name();
 
             $storylineConnector = $this->narrativeService
@@ -65,12 +66,12 @@ final class Registrar
 
             $storylineConnector
                 ->scopes()
-                ->upsert($scopeName, $scope::context());
+                ->upsert($scopeName, $scope::context(), $scopeKey);
 
             $storylineConnector
                 ->scopes()
                 ->values()
-                ->upsert($scopeName, (new $scope)->values());
+                ->upsert($scopeKey, (new $scope)->values());
         }
 
         return $this;

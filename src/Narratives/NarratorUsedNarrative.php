@@ -9,10 +9,11 @@ use Narrative\Attributes\Name;
 use Narrative\Attributes\OccurredAt;
 use Narrative\Concerns\Narrator;
 use Narrative\Contracts\Narrative;
+use Narrative\Enums\DataType;
 
-#[Books('narrative-api', 'mixpanel')]
+#[Books('narrative')]
 #[Context('This is an example.')]
-#[Key('example:narrative:used')]
+#[Key('example:narrative:used4')]
 #[Name('Narrator Used Example')]
 class NarratorUsedNarrative implements Narrative
 {
@@ -24,8 +25,12 @@ class NarratorUsedNarrative implements Narrative
         public string $message,
 
         #[OccurredAt]
-        #[Context('This is when the example was used.')]
+        #[Context('This is when the example was used.', DataType::Datetime)]
         public string $usedAt,
     ) {}
 
+    public function framing(): ?string
+    {
+        return "This is a modified message that allows for interpolatin. Check out the original message below: \n {$this->message}";
+    }
 }
