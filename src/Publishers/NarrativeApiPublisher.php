@@ -18,6 +18,7 @@ class NarrativeApiPublisher implements Publisher
      * @param  array<string,mixed>  $options
      */
     public function __construct(
+        public string $name,
         protected NarrativeService $narrativeService,
         protected array $options = [],
     ) {
@@ -31,6 +32,11 @@ class NarrativeApiPublisher implements Publisher
         $storylineToken = array_value($this->options, 'storyline_token');
 
         $this->storyline = new Storyline("{$host}/storylines/{$storylineId}", $storylineToken);
+    }
+
+    public function name(): string
+    {
+        return $this->name;
     }
 
     public function publish(Book $book): bool

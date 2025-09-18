@@ -12,13 +12,19 @@ class Book implements Contracts\Book
      */
     protected array $narratives = [];
 
-    /** @var array<class-string<Publisher>> */
+    /** @var string[] */
     protected array $publishedBy = [];
 
     /** @param Publisher[] $publishers  */
     public function __construct(
+        public string $name,
         protected array $publishers,
     ) {}
+
+    public function name(): string
+    {
+        return $this->name;
+    }
 
     public function write(Narrative|ScopedNarrative $narrative): static
     {
@@ -41,12 +47,12 @@ class Book implements Contracts\Book
     public function publish(): void
     {
         foreach ($this->publishers() as $publisher) {
-            if (in_array($publisher::class, $this->publishedBy)) {
+            if (in_array($publisher->name(), $this->publishedBy)) {
                 continue;
             }
 
             if ($publisher->publish($this)) {
-                $this->publishedBy[] = $publisher::class;
+                $this->publishedBy[] = $publisher->name();
             }
         }
     }

@@ -47,7 +47,7 @@ final class NarrativeService
             /** @var array<string,mixed> $options */
             $options = array_value($config, 'options');
 
-            $this->publishers[$key] = new $class($this, $options);
+            $this->publishers[$key] = new $class($key, $this, $options);
         }
     }
 
@@ -66,7 +66,7 @@ final class NarrativeService
                 $publishers[] = $this->publishers[$publisher];
             }
 
-            $this->books[$key] = new Book($publishers);
+            $this->books[$key] = new Book($key, $publishers);
         }
     }
 

@@ -11,9 +11,9 @@ use Narrative\Concerns\Narrator;
 use Narrative\Contracts\Narrative;
 use Narrative\Enums\DataType;
 
-#[Books('narrative')]
+#[Books('main')]
 #[Context('This is an example.')]
-#[Key('example:narrative:used4')]
+#[Key('example:narrative:used')]
 #[Name('Narrator Used Example')]
 class NarratorUsedNarrative implements Narrative
 {
@@ -31,6 +31,6 @@ class NarratorUsedNarrative implements Narrative
 
     public function framing(): ?string
     {
-        return "This is a modified message that allows for interpolatin. Check out the original message below: \n {$this->message}";
+        return "hahaha what! This is a modified message that allows for interpolation. Check out the original message below: \n {$this->message}";
     }
 }

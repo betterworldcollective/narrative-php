@@ -19,6 +19,7 @@ class MixpanelPublisher implements Publisher
      * @param  array<string,mixed>  $options
      */
     public function __construct(
+        protected string $name,
         protected NarrativeService $narrativeService,
         protected array $options = []
     ) {
@@ -26,6 +27,11 @@ class MixpanelPublisher implements Publisher
         $token = array_value($this->options, 'token');
 
         $this->mixpanel = Mixpanel::getInstance($token);
+    }
+
+    public function name(): string
+    {
+        return $this->name;
     }
 
     public function publish(Book $book): bool
