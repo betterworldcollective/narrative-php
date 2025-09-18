@@ -2,8 +2,8 @@
 
 return [
     'publishers' => [
-        'narrative-rest' => [
-            'class' => \Narrative\Publishers\RestPublisher::class,
+        'narrative-api' => [
+            'class' => \Narrative\Publishers\NarrativeApiPublisher::class,
             'options' => [
                 'host' => 'https://narrative.cloud',
                 'storyline_id' => 'your-storyline-id',
@@ -22,7 +22,7 @@ return [
 
     'books' => [
         'main' => [
-            'publishers' => ['narrative-rest', 'mixpanel'],
+            'publishers' => ['narrative-api', 'mixpanel'],
         ],
     ],
 

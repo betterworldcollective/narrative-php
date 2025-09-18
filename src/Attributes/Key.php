@@ -4,15 +4,8 @@ namespace Narrative\Attributes;
 
 use Attribute;
 
-use function Narrative\Support\delimited_case;
-
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_PROPERTY)]
 class Key
 {
-    public function __construct(protected string $slug) {}
-
-    public function getKey(): string
-    {
-        return delimited_case($this->slug, '-', '/[^a-z0-9:]+/');
-    }
+    public function __construct(public string $key) {}
 }

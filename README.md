@@ -42,29 +42,28 @@ _(At this point this it is pretty much similar to how most analytics work.)_
 use Narrative\Scribe;
 
 $config = [
-    'host' => 'https://narrative.cloud/api',
-
-    'default_storyline' => 'main',
-
-    'storylines' => [
-        'main' => [
-            'id' => 'your-storyline-id',
-            'token' => 'your-storyline-token',
-        ],
-    ],
-
-    'default_publisher' => 'narrative-rest',
-
     'publishers' => [
-        'narrative-rest' => [
-            'class' => \Narrative\Publishers\RestPublisher::class,
-            'options' => [],
+        'narrative-api' => [
+            'class' => \Narrative\Publishers\NarrativeApiPublisher::class,
+            'options' => [
+                'host' => 'https://narrative.cloud',
+                'storyline_id' => 'your-storyline-id',
+                'storyline_token' => 'your-storyline-token',
+            ],
         ],
         'mixpanel' => [
             'class' => \Narrative\Publishers\MixpanelPublisher::class,
             'options' => [
                 'token' => 'your-mixpanel-token',
             ],
+        ],
+    ],
+
+    'default_book' => 'main',
+
+    'books' => [
+        'main' => [
+            'publishers' => ['narrative-api', 'mixpanel'],
         ],
     ],
 

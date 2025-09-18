@@ -16,7 +16,7 @@ function array_value(array $data, string $key): mixed
 
     foreach ($keys as $k) {
         if (! is_array($data) || ! array_key_exists($k, $data)) {
-            return throw new MissingArrayKeyException("Missing array key [$key]'.");
+            return throw MissingArrayKeyException::make($key);
         }
         $data = $data[$k];
     }

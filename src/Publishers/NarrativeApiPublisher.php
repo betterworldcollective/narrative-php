@@ -10,7 +10,7 @@ use Narrative\ScopedNarrative;
 
 use function Narrative\Support\array_value;
 
-class RestPublisher implements Publisher
+class NarrativeApiPublisher implements Publisher
 {
     protected Storyline $storyline;
 
@@ -31,7 +31,6 @@ class RestPublisher implements Publisher
         $storylineToken = array_value($this->options, 'storyline_token');
 
         $this->storyline = new Storyline("{$host}/storylines/{$storylineId}", $storylineToken);
-
     }
 
     public function publish(Book $book): bool

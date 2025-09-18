@@ -41,9 +41,13 @@ trait Narrator
 
     public static function key(): ?string
     {
-        $key = Reflect::class(static::class)->getAttributeInstance(Key::class)?->getKey();
+        $key = Reflect::class(static::class)->getAttributeInstance(Key::class)?->key;
 
-        return $key ?? delimited_case(between(static::class, '\\', 'Narrative'), '-', '/[^a-z0-9:]+/');
+        return delimited_case(
+            $key ?? between(static::class, '\\', 'Narrative'),
+            '-',
+            '/[^a-z0-9:]+/'
+        );
     }
 
     public static function name(): string
@@ -75,15 +79,17 @@ trait Narrator
             $context = $property->getAttributes(Context::class);
 
             if (empty($context)) {
-                throw new MissingContextException('[Context] attribute is missing.');
+                throw MissingContextException::make();
             }
 
-            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance()->getKey()
+            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance()->key
                 ?? delimited_case($property->getName());
 
+            $context = $context[0]->newInstance();
+
             $definitions[$key] = [
-                'type' => $context[0]->newInstance()->type->value,
-                'context' => $context[0]->newInstance()->context,
+                'type' => $context->type->value,
+                'context' => $context->context,
             ];
         }
 
@@ -100,7 +106,7 @@ trait Narrator
                 continue;
             }
 
-            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance()->getKey()
+            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance()->key
                 ?? delimited_case($property->getName());
 
             $values[$key] = $property->getValue($this);
@@ -131,7 +137,7 @@ trait Narrator
 
                 return isValidDateTime($occurredAt, $format)
                     ? $occurredAt
-                    : throw new InvalidDatetimeStringException("[{$occurredAt}] is not a {$format} datetime string.");
+                    : throw InvalidDatetimeStringException::make($occurredAt, $format);
             }
         }
 
