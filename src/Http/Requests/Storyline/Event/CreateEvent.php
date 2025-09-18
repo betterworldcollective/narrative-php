@@ -14,12 +14,12 @@ class CreateEvent extends Request implements HasBody
     protected Method $method = Method::POST;
 
     /**
-     * @param  array<string,mixed>|null  $definition
+     * @param  array<string,mixed>|null  $definitions
      */
     public function __construct(
         protected string $name,
         protected string $context,
-        protected ?array $definition = null,
+        protected ?array $definitions = null,
         protected ?string $slug = null
     ) {}
 
@@ -40,8 +40,8 @@ class CreateEvent extends Request implements HasBody
             $body['slug'] = $this->slug;
         }
 
-        if ($this->definition !== null) {
-            $body['definition'] = $this->definition;
+        if ($this->definitions !== null) {
+            $body['definitions'] = $this->definitions;
         }
 
         return $body;

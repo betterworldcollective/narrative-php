@@ -4,11 +4,11 @@ namespace Narrative\Concerns;
 
 use DateTime;
 use DateTimeZone;
+use Narrative\Attributes\Books;
 use Narrative\Attributes\Context;
+use Narrative\Attributes\Key;
 use Narrative\Attributes\Name;
 use Narrative\Attributes\OccurredAt;
-use Narrative\Attributes\Slug;
-use Narrative\Attributes\Storylines;
 use Narrative\Contracts\Narrative;
 use Narrative\Exceptions\InvalidDatetimeStringException;
 use Narrative\Exceptions\MissingContextException;
@@ -27,23 +27,27 @@ use function Narrative\Support\isValidDateTime;
  */
 trait Narrator
 {
-    /** @return string[]  */
-    public static function storylines(): array
+    /** @return array<string|null>  */
+    public static function books(): array
     {
-        $storylines = Reflect::class(static::class)->getAttributeInstance(Storylines::class);
+        $books = Reflect::class(static::class)->getAttributeInstance(Books::class);
 
-        if ($storylines === null) {
-            return ['main'];
+        if ($books === null) {
+            return [null];
         }
 
-        return $storylines->storylines;
+        return $books->books;
     }
 
-    public static function slug(): ?string
+    public static function key(): ?string
     {
-        $slug = Reflect::class(static::class)->getAttributeInstance(Slug::class)?->getSlug();
+        $key = Reflect::class(static::class)->getAttributeInstance(Key::class)?->key;
 
-        return $slug ?? delimited_case(between(static::class, '\\', 'Narrative'), '-');
+        return delimited_case(
+            $key ?? between(static::class, '\\', 'Narrative'),
+            '-',
+            '/[^a-z0-9:]+/'
+        );
     }
 
     public static function name(): string
@@ -75,15 +79,17 @@ trait Narrator
             $context = $property->getAttributes(Context::class);
 
             if (empty($context)) {
-                throw new MissingContextException('[Context] attribute is missing.');
+                throw MissingContextException::make();
             }
 
-            $slug = ($property->getAttributes(Slug::class)[0] ?? null)?->newInstance()->getSlug()
+            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance()->key
                 ?? delimited_case($property->getName());
 
-            $definitions[$slug] = [
-                'type' => $context[0]->newInstance()->type->value,
-                'context' => $context[0]->newInstance()->context,
+            $context = $context[0]->newInstance();
+
+            $definitions[$key] = [
+                'type' => $context->type->value,
+                'context' => $context->context,
             ];
         }
 
@@ -100,10 +106,10 @@ trait Narrator
                 continue;
             }
 
-            $slug = ($property->getAttributes(Slug::class)[0] ?? null)?->newInstance()->getSlug()
+            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance()->key
                 ?? delimited_case($property->getName());
 
-            $values[$slug] = $property->getValue($this);
+            $values[$key] = $property->getValue($this);
         }
 
         return $values;
@@ -131,7 +137,7 @@ trait Narrator
 
                 return isValidDateTime($occurredAt, $format)
                     ? $occurredAt
-                    : throw new InvalidDatetimeStringException("[{$occurredAt}] is not a {$format} datetime string.");
+                    : throw InvalidDatetimeStringException::make($occurredAt, $format);
             }
         }
 

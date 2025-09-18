@@ -13,71 +13,47 @@ class Book implements Contracts\Book
     protected array $narratives = [];
 
     /** @var string[] */
-    protected array $storylines = [];
+    protected array $publishedBy = [];
 
-    protected bool $isPublished = false;
+    /** @param Publisher[] $publishers  */
+    public function __construct(
+        public string $name,
+        protected array $publishers,
+    ) {}
+
+    public function name(): string
+    {
+        return $this->name;
+    }
 
     public function write(Narrative|ScopedNarrative $narrative): static
     {
         $this->narratives[] = $narrative;
 
-        $baseNarrative = $narrative instanceof ScopedNarrative ? $narrative->narrative : $narrative;
-
-        $this->storylines = array_unique(
-            array_merge($this->storylines, $baseNarrative::storylines())
-        );
-
         return $this;
     }
 
     /** @return array<Narrative|ScopedNarrative> */
-    public function read(?string $storyline = null): array
+    public function read(): array
     {
-        if ($storyline === null) {
-            return $this->narratives;
-        }
+        return $this->narratives;
+    }
 
-        $narratives = [];
+    public function publishers(): array
+    {
+        return $this->publishers;
+    }
 
-        foreach ($this->narratives as $narrative) {
-            $baseNarrative = $narrative instanceof ScopedNarrative ? $narrative->narrative : $narrative;
+    public function publish(): void
+    {
+        foreach ($this->publishers() as $publisher) {
+            if (in_array($publisher->name(), $this->publishedBy)) {
+                continue;
+            }
 
-            if (in_array($storyline, $baseNarrative::storylines())) {
-                $narratives[] = $narrative;
+            if ($publisher->publish($this)) {
+                $this->publishedBy[] = $publisher->name();
             }
         }
-
-        return $narratives;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function storylines(): array
-    {
-        return $this->storylines;
-    }
-
-    /**
-     * @param  Publisher|Publisher[]  $publisher
-     */
-    public function publish(Publisher|array $publisher): void
-    {
-        if ($this->isPublished) {
-            return;
-        }
-
-        $publishers = is_array($publisher) ? $publisher : [$publisher];
-
-        foreach ($publishers as $publisher) {
-            $publisher->publish($this);
-        }
-
-        $this->isPublished = true;
-    }
-
-    public function isPublished(): bool
-    {
-        return $this->isPublished;
     }
 }

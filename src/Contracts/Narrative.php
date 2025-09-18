@@ -7,16 +7,16 @@ use Narrative\ScopedNarrative;
 interface Narrative
 {
     /**
-     * The storylines that the narrative belongs to.
+     * The books that the narrative belongs to.
      *
-     * @return string[]
+     * @return array<string|null>
      */
-    public static function storylines(): array;
+    public static function books(): array;
 
     /**
-     * The slug of the event that occurred.
+     * The key or ID of the event that occurred.
      */
-    public static function slug(): ?string;
+    public static function key(): ?string;
 
     /**
      * The name of the event that occurred.
