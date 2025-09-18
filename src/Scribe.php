@@ -31,9 +31,9 @@ final class Scribe
      *     auto_publish: bool
      * }  $config
      */
-    public static function make(array $config): static
+    public static function make(array $config): Scribe
     {
-        return new self($config);
+        return new Scribe($config);
     }
 
     public function write(Narrative|ScopedNarrative $narrative): static

@@ -32,9 +32,9 @@ final class Registrar
      *     auto_publish: bool
      * }  $config
      */
-    public static function make(array $config): static
+    public static function make(array $config): Registrar
     {
-        return new self($config);
+        return new Registrar($config);
     }
 
     /**
