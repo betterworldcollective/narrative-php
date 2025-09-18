@@ -9,7 +9,7 @@ interface Narrative
     /**
      * The storylines that the narrative belongs to.
      *
-     * @return string[]
+     * @return array<string|null>
      */
     public static function storylines(): array;
 

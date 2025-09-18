@@ -12,7 +12,7 @@ class Book implements Contracts\Book
      */
     protected array $narratives = [];
 
-    /** @var string[] */
+    /** @var array<string|null> */
     protected array $storylines = [];
 
     protected bool $isPublished = false;
@@ -30,10 +30,13 @@ class Book implements Contracts\Book
         return $this;
     }
 
-    /** @return array<Narrative|ScopedNarrative> */
-    public function read(?string $storyline = null): array
+    /**
+     * @param  string|false|null  $storyline  false = read all, null = use default storyline, string = use this storyline
+     * @return array<Narrative|ScopedNarrative>
+     */
+    public function read(string|false|null $storyline = false): array
     {
-        if ($storyline === null) {
+        if ($storyline === false) {
             return $this->narratives;
         }
 
@@ -51,7 +54,7 @@ class Book implements Contracts\Book
     }
 
     /**
-     * @return string[]
+     * @return array<string|null>
      */
     public function storylines(): array
     {

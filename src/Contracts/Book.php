@@ -13,7 +13,7 @@ interface Book
      */
     public function read(?string $storyline = null): array;
 
-    /** @return string[] */
+    /** @return array<string|null> */
     public function storylines(): array;
 
     /**

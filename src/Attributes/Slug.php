@@ -13,6 +13,6 @@ class Slug
 
     public function getSlug(): string
     {
-        return delimited_case($this->slug, '-');
+        return delimited_case($this->slug, '-', '/[^a-z0-9:]+/');
     }
 }

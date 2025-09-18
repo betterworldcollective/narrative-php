@@ -24,7 +24,12 @@ function array_value(array $data, string $key): mixed
     return $data;
 }
 
-function delimited_case(string $string, string $delimiter = '_'): string
+/**
+ * @param  string  $string  The original string to convert
+ * @param  string  $delimiter  The delimiter to use
+ * @param  string  $characters  The allowed characters to be used
+ */
+function delimited_case(string $string, string $delimiter = '_', string $characters = '/[^a-z0-9]+/'): string
 {
     // Insert spaces before capital letters (to handle CamelCase / PascalCase)
     $string = (string) preg_replace('/([a-z])([A-Z])/', '$1 $2', $string);
@@ -34,7 +39,7 @@ function delimited_case(string $string, string $delimiter = '_'): string
     $string = strtolower($string);
 
     // Replace any non-alphanumeric characters with spaces
-    $string = (string) preg_replace('/[^a-z0-9:]+/', ' ', $string);
+    $string = (string) preg_replace($characters, ' ', $string);
 
     // Trim spaces at start/end and replace remaining spaces with delimiter
     $string = trim($string);
@@ -66,10 +71,14 @@ function between(string $string, ?string $start = null, ?string $end = null): st
     return $result;
 }
 
-function headline(string $string): string
+/**
+ * @param  string  $string  The original string to convert
+ * @param  string  $characters  The allowed characters to be used
+ */
+function headline(string $string, string $characters = '/[^a-z0-9]+/'): string
 {
     // Normalize all non-alphanumerics to spaces
-    $s = (string) preg_replace('/[^A-Za-z0-9]+/', ' ', $string);
+    $s = (string) preg_replace($characters, ' ', $string);
 
     // Insert spaces between lowercase/number and Uppercase (helloWorld -> hello World)
     $s = (string) preg_replace('/([a-z0-9])([A-Z])/', '$1 $2', $s);

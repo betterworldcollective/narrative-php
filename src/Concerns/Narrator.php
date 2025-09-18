@@ -27,13 +27,13 @@ use function Narrative\Support\isValidDateTime;
  */
 trait Narrator
 {
-    /** @return string[]  */
+    /** @return array<string|null>  */
     public static function storylines(): array
     {
         $storylines = Reflect::class(static::class)->getAttributeInstance(Storylines::class);
 
         if ($storylines === null) {
-            return ['main'];
+            return [null];
         }
 
         return $storylines->storylines;
@@ -43,7 +43,7 @@ trait Narrator
     {
         $slug = Reflect::class(static::class)->getAttributeInstance(Slug::class)?->getSlug();
 
-        return $slug ?? delimited_case(between(static::class, '\\', 'Narrative'), '-');
+        return $slug ?? delimited_case(between(static::class, '\\', 'Narrative'), '-', '/[^a-z0-9:]+/');
     }
 
     public static function name(): string
