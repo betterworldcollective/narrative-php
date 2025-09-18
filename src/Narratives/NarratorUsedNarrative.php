@@ -31,6 +31,6 @@ class NarratorUsedNarrative implements Narrative
 
     public function framing(): ?string
     {
-        return "hahaha what! This is a modified message that allows for interpolation. Check out the original message below: \n {$this->message}";
+        return "This is a modified message that allows for interpolation. Check out the original message below: \n {$this->message}";
     }
 }
