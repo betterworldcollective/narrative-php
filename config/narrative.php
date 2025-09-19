@@ -54,9 +54,11 @@ return [
     */
 
     'books' => [
+
         'main' => [
             'publishers' => ['narrative-api', 'mixpanel'],
         ],
+
     ],
 
     /*
