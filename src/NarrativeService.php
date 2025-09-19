@@ -4,6 +4,7 @@ namespace BetterWorld\Scribe;
 
 use BetterWorld\Scribe\Contracts\Publisher;
 use BetterWorld\Scribe\Exceptions\InvalidPublisherException;
+use BetterWorld\Scribe\Exceptions\MissingArrayKeyException;
 use BetterWorld\Scribe\Http\Storyline;
 
 use function BetterWorld\Scribe\Support\array_value;
@@ -15,6 +16,9 @@ final class NarrativeService
 
     /** @var array<string, \BetterWorld\Scribe\Contracts\Book> */
     protected array $books;
+
+    /** @var array<string, Storyline> */
+    public array $storylines;
 
     /**
      * @param  array{
@@ -63,7 +67,7 @@ final class NarrativeService
             $publishersKeys = array_value($config, 'publishers');
 
             foreach ($publishersKeys as $publisher) {
-                $publishers[] = $this->publishers[$publisher];
+                $publishers[] = $this->getPublisher($publisher);
             }
 
             $this->books[$key] = new Book($key, $publishers);
@@ -100,17 +104,49 @@ final class NarrativeService
         return (bool) array_value($this->config, 'auto_publish');
     }
 
-    public function getStoryline(string $publisher): Storyline
+    public function getStoryline(string $publisher): ?Storyline
     {
-        /** @var string $host */
-        $host = array_value($this->config, "publishers.{$publisher}.options.host");
+        if (isset($this->storylines[$publisher])) {
+            return $this->storylines[$publisher];
+        }
 
-        /** @var string $id */
-        $id = array_value($this->config, "publishers.{$publisher}.options.storyline_id");
+        try {
+            /** @var string $host */
+            $host = array_value($this->config, "publishers.{$publisher}.options.host");
 
-        /** @var string $token */
-        $token = array_value($this->config, "publishers.{$publisher}.options.storyline_token");
+            /** @var string $id */
+            $id = array_value($this->config, "publishers.{$publisher}.options.storyline_id");
 
-        return new Storyline("{$host}/storylines/{$id}", $token);
+            /** @var string $token */
+            $token = array_value($this->config, "publishers.{$publisher}.options.storyline_token");
+        } catch (MissingArrayKeyException) {
+            return null;
+        }
+
+        $storyline = new Storyline("{$host}/storylines/{$id}", $token);
+
+        $this->storylines[$publisher] = $storyline;
+
+        return $storyline;
+    }
+
+    /** @return string[] */
+    public function bookPublisher(?string ...$books): array
+    {
+        $publishers = [];
+
+        /** @var string $defaultBook */
+        $defaultBook = array_value($this->config, 'default_book');
+
+        foreach (array_unique($books) as $book) {
+            $book = $book ?? $defaultBook;
+
+            /** @var string[] $bookPublishers */
+            $bookPublishers = array_value($this->config, "books.{$book}.publishers");
+
+            $publishers = array_merge($publishers, $bookPublishers);
+        }
+
+        return array_unique($publishers);
     }
 }

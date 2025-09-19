@@ -2,24 +2,13 @@
 
 namespace BetterWorld\Scribe\Narratives\Scopes;
 
-use BetterWorld\Scribe\Contracts\Scope;
+use BetterWorld\Scribe\Scope;
 
-class UserIdScope implements Scope
+class UserIdScope extends Scope
 {
-    public static function key(): string
-    {
-        return 'user-id';
-    }
+    protected static array $books = ['main'];
 
-    public static function name(): string
-    {
-        return 'User ID';
-    }
-
-    public static function context(): string
-    {
-        return 'This is the user the triggered the event.';
-    }
+    protected static string $context = 'The ID of the user who triggered the event.';
 
     public function values(): array
     {

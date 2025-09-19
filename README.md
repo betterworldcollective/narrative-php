@@ -94,3 +94,4 @@ Registrar::make($config)->registerEvents([
 ## Roadmap
 - [ ] Add tests
 - [ ] Add docs
+- [ ] Add fakers to make it easy to test for package user

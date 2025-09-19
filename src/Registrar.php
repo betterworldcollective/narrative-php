@@ -4,7 +4,6 @@ namespace BetterWorld\Scribe;
 
 use BetterWorld\Scribe\Contracts\Narrative;
 use BetterWorld\Scribe\Contracts\Publisher;
-use BetterWorld\Scribe\Contracts\Scope;
 
 final class Registrar
 {
@@ -19,7 +18,7 @@ final class Registrar
      * }  $config
      */
     public function __construct(
-        array $config
+        protected array $config
     ) {
         $this->narrativeService = new NarrativeService($config);
     }
@@ -40,38 +39,46 @@ final class Registrar
     /**
      * @param  class-string<Narrative>[]  $events
      */
-    public function registerEvents(array $events, string $publisher): static
+    public function registerEvents(array $events): static
     {
         foreach ($events as $event) {
-            $this->narrativeService
-                ->getStoryline($publisher)
-                ->events()
-                ->upsert($event::name(), $event::context(), $event::definitions(), $event::key());
+            foreach ($this->narrativeService->bookPublisher(...$event::books()) as $publisher) {
+                $this->narrativeService
+                    ->getStoryline($publisher)
+                    ?->events()
+                    ->upsert($event::name(), $event::context(), $event::definitions(), $event::key());
+            }
         }
 
         return $this;
     }
 
     /**
-     * @param  class-string<Scope>[]  $scopes
+     * @param  class-string<\BetterWorld\Scribe\Scope>[]  $scopes
      */
-    public function registerScopes(array $scopes, string $publisher): static
+    public function registerScopes(array $scopes): static
     {
         foreach ($scopes as $scope) {
             $scopeKey = $scope::key();
             $scopeName = $scope::name();
 
-            $storylineConnector = $this->narrativeService
-                ->getStoryline($publisher);
+            foreach ($this->narrativeService->bookPublisher(...$scope::books()) as $publisher) {
+                $storylineConnector = $this->narrativeService
+                    ->getStoryline($publisher);
 
-            $storylineConnector
-                ->scopes()
-                ->upsert($scopeName, $scope::context(), $scopeKey);
+                if ($storylineConnector === null) {
+                    continue;
+                }
 
-            $storylineConnector
-                ->scopes()
-                ->values()
-                ->upsert($scopeKey, (new $scope)->values());
+                $storylineConnector
+                    ->scopes()
+                    ->upsert($scopeName, $scope::context(), $scopeKey);
+
+                $storylineConnector
+                    ->scopes()
+                    ->values()
+                    ->upsert($scopeKey, (new $scope)->values());
+            }
         }
 
         return $this;
