@@ -8,7 +8,7 @@ use BetterWorld\Scribe\Contracts\Publisher;
 class Book implements Contracts\Book
 {
     /**
-     * @var array<Narrative|ScopedNarrative>
+     * @var array<Narrative>
      */
     protected array $narratives = [];
 
@@ -26,14 +26,14 @@ class Book implements Contracts\Book
         return $this->name;
     }
 
-    public function write(Narrative|ScopedNarrative $narrative): static
+    public function write(Narrative $narrative): static
     {
         $this->narratives[] = $narrative;
 
         return $this;
     }
 
-    /** @return array<Narrative|ScopedNarrative> */
+    /** @return array<Narrative> */
     public function read(): array
     {
         return $this->narratives;

@@ -10,7 +10,6 @@ use BetterWorld\Scribe\Attributes\OccurredAt;
 use BetterWorld\Scribe\Contracts\Narrative;
 use BetterWorld\Scribe\Exceptions\InvalidDatetimeStringException;
 use BetterWorld\Scribe\Exceptions\MissingContextException;
-use BetterWorld\Scribe\ScopedNarrative;
 use DateTime;
 use DateTimeZone;
 use PrinceJohn\Reflect\Reflect;
@@ -27,9 +26,6 @@ use function BetterWorld\Scribe\Support\isValidDateTime;
  */
 trait Narrator
 {
-    /** @var array<string, mixed> */
-    protected array $__METADATA__ = [];
-
     /** @return array<string|null>  */
     public static function books(): array
     {
@@ -144,25 +140,5 @@ trait Narrator
         }
 
         return (new DateTime(timezone: new DateTimeZone('UTC')))->format($format);
-    }
-
-    /**
-     * @param  array<string,mixed>|null  $metadata
-     */
-    public function metadata(?array $metadata = null): array
-    {
-        if ($metadata !== null) {
-            $this->__METADATA__ = $metadata;
-        }
-
-        return $this->__METADATA__;
-    }
-
-    /**
-     * @param  array<string,string>  $scopes
-     */
-    public function scopedBy(array $scopes): ScopedNarrative
-    {
-        return new ScopedNarrative($scopes, $this);
     }
 }

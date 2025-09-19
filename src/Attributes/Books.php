@@ -12,6 +12,6 @@ class Books
 
     public function __construct(string ...$books)
     {
-        $this->books = $books;
+        $this->books = array_unique($books);
     }
 }

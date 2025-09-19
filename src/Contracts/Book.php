@@ -2,21 +2,34 @@
 
 namespace BetterWorld\Scribe\Contracts;
 
-use BetterWorld\Scribe\ScopedNarrative;
-
 interface Book
 {
+    /**
+     * Get the name of the book.
+     */
     public function name(): string;
 
-    public function write(Narrative|ScopedNarrative $narrative): static;
+    /**
+     * Write narratives into the book.
+     */
+    public function write(Narrative $narrative): static;
 
     /**
-     * @return array<Narrative|ScopedNarrative>
+     * Read all the narratives written in the book.
+     *
+     * @return array<Narrative>
      */
     public function read(): array;
 
-    /** @return Publisher[] */
+    /**
+     * Get a list of all the book's publishers.
+     *
+     * @return Publisher[]
+     */
     public function publishers(): array;
 
+    /**
+     * Publish the narratives into all the defined publishers.
+     */
     public function publish(): void;
 }

@@ -3,9 +3,9 @@
 namespace BetterWorld\Scribe\Publishers;
 
 use BetterWorld\Scribe\Contracts\Book;
+use BetterWorld\Scribe\Contracts\Metadata;
 use BetterWorld\Scribe\Contracts\Publisher;
 use BetterWorld\Scribe\NarrativeService;
-use BetterWorld\Scribe\ScopedNarrative;
 use Exception;
 use Mixpanel;
 
@@ -37,9 +37,7 @@ class MixpanelPublisher implements Publisher
     public function publish(Book $book): bool
     {
         foreach ($book->read() as $narrative) {
-            $narrative = $narrative instanceof ScopedNarrative ? $narrative->narrative : $narrative;
-
-            $metadata = $narrative->metadata();
+            $metadata = $narrative instanceof Metadata ? $narrative->metadata() : [];
 
             try {
                 if (isset($metadata['user_id']) && is_string($metadata['user_id'])) {

@@ -4,9 +4,9 @@ namespace BetterWorld\Scribe\Publishers;
 
 use BetterWorld\Scribe\Contracts\Book;
 use BetterWorld\Scribe\Contracts\Publisher;
+use BetterWorld\Scribe\Contracts\Scopes;
 use BetterWorld\Scribe\Http\Storyline;
 use BetterWorld\Scribe\NarrativeService;
-use BetterWorld\Scribe\ScopedNarrative;
 
 use function BetterWorld\Scribe\Support\array_value;
 
@@ -44,13 +44,6 @@ class NarrativeApiPublisher implements Publisher
         $occurrences = [];
 
         foreach ($book->read() as $narrative) {
-            $scopes = null;
-
-            if ($narrative instanceof ScopedNarrative) {
-                $scopes = $narrative->scopes;
-                $narrative = $narrative->narrative;
-            }
-
             $occurrence = [
                 'event' => $narrative::key(),
                 'details' => $narrative->values(),
@@ -58,7 +51,25 @@ class NarrativeApiPublisher implements Publisher
                 'occurred_at' => $narrative->occurredAt(),
             ];
 
-            if ($scopes !== null) {
+            $narrativeScopes = $narrative instanceof Scopes ? $narrative->scopes() : [];
+
+            if ($narrativeScopes !== []) {
+                $scopes = [];
+                $scopeValues = [];
+
+                foreach ($narrativeScopes as $narrativeScope) {
+                    $scopes[] = [
+                        $narrativeScope->key() => $narrativeScope->id,
+                    ];
+
+                    $scopeValues[] = [
+                        'id' => (string) $narrativeScope->id,
+                        'name' => $narrativeScope->name,
+                    ];
+                }
+
+                $this->storyline->scopes()->values()->upsert($narrativeScope::key(), $scopeValues);
+
                 $occurrence['scopes'] = $scopes;
             }
 
