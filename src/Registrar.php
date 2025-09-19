@@ -54,7 +54,7 @@ final class Registrar
     }
 
     /**
-     * @param  class-string<\BetterWorld\Scribe\Scope>[]  $scopes
+     * @param  class-string<Scope>[]  $scopes
      */
     public function registerScopes(array $scopes): static
     {

@@ -1,7 +1,18 @@
 <?php
 
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Analytics Publishers
+    |--------------------------------------------------------------------------
+    |
+    | Below are all of the analytics publishers defined for your application.
+    |
+    */
+
     'publishers' => [
+
         'narrative-api' => [
             'class' => \BetterWorld\Scribe\Publishers\NarrativeApiPublisher::class,
             'options' => [
@@ -10,15 +21,37 @@ return [
                 'storyline_token' => 'your-storyline-token',
             ],
         ],
+
         'mixpanel' => [
             'class' => \BetterWorld\Scribe\Publishers\MixpanelPublisher::class,
             'options' => [
                 'token' => 'your-mixpanel-token',
             ],
         ],
+
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default Book Name
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify which of the books below you wish to use
+    | as your default book. This is the book that will be utilized
+    | unless another book is explicitly specified.
+    |
+    */
+
     'default_book' => 'main',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Narrative Books
+    |--------------------------------------------------------------------------
+    |
+    | Below are all of the narrative books defined for your application.
+    |
+    */
 
     'books' => [
         'main' => [
@@ -26,5 +59,16 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Auto Publish
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify whether to auto publish your books
+    | when the script terminates.
+    |
+    */
+
     'auto_publish' => true,
+
 ];
