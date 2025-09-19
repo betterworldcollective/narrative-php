@@ -1,8 +1,8 @@
 <?php
 
-namespace Narrative;
+namespace BetterWorld\Scribe;
 
-use Narrative\Contracts\Narrative;
+use BetterWorld\Scribe\Contracts\Narrative;
 
 class ScopedNarrative
 {

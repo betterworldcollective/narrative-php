@@ -1,6 +1,6 @@
 <?php
 
-namespace Narrative\Enums;
+namespace BetterWorld\Scribe\Enums;
 
 enum DataType: string
 {

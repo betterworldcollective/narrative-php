@@ -1,15 +1,15 @@
 <?php
 
-namespace Narrative\Publishers;
+namespace BetterWorld\Scribe\Publishers;
 
+use BetterWorld\Scribe\Contracts\Book;
+use BetterWorld\Scribe\Contracts\Publisher;
+use BetterWorld\Scribe\NarrativeService;
+use BetterWorld\Scribe\ScopedNarrative;
 use Exception;
 use Mixpanel;
-use Narrative\Contracts\Book;
-use Narrative\Contracts\Publisher;
-use Narrative\NarrativeService;
-use Narrative\ScopedNarrative;
 
-use function Narrative\Support\array_value;
+use function BetterWorld\Scribe\Support\array_value;
 
 class MixpanelPublisher implements Publisher
 {

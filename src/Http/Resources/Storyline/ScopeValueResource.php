@@ -1,9 +1,9 @@
 <?php
 
-namespace Narrative\Http\Resources\Storyline;
+namespace BetterWorld\Scribe\Http\Resources\Storyline;
 
-use Narrative\Http\Requests\Storyline\Scope\Value\DeleteValues;
-use Narrative\Http\Requests\Storyline\Scope\Value\UpsertValues;
+use BetterWorld\Scribe\Http\Requests\Storyline\Scope\Value\DeleteValues;
+use BetterWorld\Scribe\Http\Requests\Storyline\Scope\Value\UpsertValues;
 use Saloon\Http\BaseResource;
 
 class ScopeValueResource extends BaseResource

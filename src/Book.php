@@ -1,9 +1,9 @@
 <?php
 
-namespace Narrative;
+namespace BetterWorld\Scribe;
 
-use Narrative\Contracts\Narrative;
-use Narrative\Contracts\Publisher;
+use BetterWorld\Scribe\Contracts\Narrative;
+use BetterWorld\Scribe\Contracts\Publisher;
 
 class Book implements Contracts\Book
 {

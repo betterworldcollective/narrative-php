@@ -3,7 +3,7 @@
 return [
     'publishers' => [
         'narrative-api' => [
-            'class' => \Narrative\Publishers\NarrativeApiPublisher::class,
+            'class' => \BetterWorld\Scribe\Publishers\NarrativeApiPublisher::class,
             'options' => [
                 'host' => 'https://narrative.cloud/api',
                 'storyline_id' => 'your-storyline-id',
@@ -11,7 +11,7 @@ return [
             ],
         ],
         'mixpanel' => [
-            'class' => \Narrative\Publishers\MixpanelPublisher::class,
+            'class' => \BetterWorld\Scribe\Publishers\MixpanelPublisher::class,
             'options' => [
                 'token' => 'your-mixpanel-token',
             ],

@@ -1,10 +1,10 @@
 <?php
 
-namespace Narrative;
+namespace BetterWorld\Scribe;
 
-use Narrative\Contracts\Narrative;
-use Narrative\Contracts\Publisher;
-use Narrative\Contracts\Scope;
+use BetterWorld\Scribe\Contracts\Narrative;
+use BetterWorld\Scribe\Contracts\Publisher;
+use BetterWorld\Scribe\Contracts\Scope;
 
 final class Registrar
 {

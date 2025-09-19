@@ -1,9 +1,9 @@
 <?php
 
-namespace Narrative\Support;
+namespace BetterWorld\Scribe\Support;
 
+use BetterWorld\Scribe\Exceptions\MissingArrayKeyException;
 use DateTime;
-use Narrative\Exceptions\MissingArrayKeyException;
 
 /**
  * @param  mixed[]  $data

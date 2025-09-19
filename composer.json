@@ -1,6 +1,6 @@
 {
     "name": "betterworldcollective/narrative-php",
-    "description": "Narrative driver for PHP",
+    "description": "An object based analytics driver for PHP with built-in support for Narrative.",
     "license": "MIT",
     "authors": [
         {
@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Narrative\\": "src/"
+            "BetterWorld\\Scribe\\": "src/"
         },
         "files": [
             "src/Support/helpers.php"

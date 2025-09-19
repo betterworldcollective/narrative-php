@@ -1,19 +1,19 @@
 <?php
 
-namespace Narrative;
+namespace BetterWorld\Scribe;
 
-use Narrative\Contracts\Publisher;
-use Narrative\Exceptions\InvalidPublisherException;
-use Narrative\Http\Storyline;
+use BetterWorld\Scribe\Contracts\Publisher;
+use BetterWorld\Scribe\Exceptions\InvalidPublisherException;
+use BetterWorld\Scribe\Http\Storyline;
 
-use function Narrative\Support\array_value;
+use function BetterWorld\Scribe\Support\array_value;
 
 final class NarrativeService
 {
     /** @var array<string, Publisher> */
     protected array $publishers;
 
-    /** @var array<string, \Narrative\Contracts\Book> */
+    /** @var array<string, \BetterWorld\Scribe\Contracts\Book> */
     protected array $books;
 
     /**
@@ -76,7 +76,7 @@ final class NarrativeService
         return $this->publishers;
     }
 
-    /** @return array<string, \Narrative\Contracts\Book> */
+    /** @return array<string, \BetterWorld\Scribe\Contracts\Book> */
     public function getBooks(): array
     {
         return $this->books;
@@ -87,7 +87,7 @@ final class NarrativeService
         return $this->publishers[$publisher];
     }
 
-    public function getBook(?string $book = null): \Narrative\Contracts\Book
+    public function getBook(?string $book = null): \BetterWorld\Scribe\Contracts\Book
     {
         /** @var string $default */
         $default = array_value($this->config, 'default_book');
