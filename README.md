@@ -92,5 +92,5 @@ Registrar::make($config)->registerEvents([
 ```
 
 ## Roadmap
-- [] Add tests
-- [] Add docs
+- [ ] Add tests
+- [ ] Add docs
