@@ -37,20 +37,17 @@ class MixpanelPublisher implements Publisher
     public function publish(Book $book): bool
     {
         foreach ($book->read() as $narrative) {
-            $scopes = null;
+            $narrative = $narrative instanceof ScopedNarrative ? $narrative->narrative : $narrative;
 
-            if ($narrative instanceof ScopedNarrative) {
-                $scopes = $narrative->scopes;
-                $narrative = $narrative->narrative;
-            }
+            $metadata = $narrative->metadata();
 
             try {
-                if ($scopes !== null && isset($scopes['user_id']) && is_string($scopes['user_id'])) {
-                    $userId = $scopes['user_id'];
+                if (isset($metadata['user_id']) && is_string($metadata['user_id'])) {
+                    $userId = $metadata['user_id'];
                     $this->mixpanel->identify(user_id: $userId);
 
-                    if (isset($scopes['properties']) && is_array($scopes['properties'])) {
-                        $this->mixpanel->people->setOnce($userId, $scopes['properties']);
+                    if (isset($metadata['properties']) && is_array($metadata['properties'])) {
+                        $this->mixpanel->people->setOnce($userId, $metadata['properties']);
                     }
                 }
 

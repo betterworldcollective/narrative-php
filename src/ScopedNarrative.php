@@ -12,4 +12,14 @@ class ScopedNarrative
      * @param  array<string,string|array<mixed>>  $scopes
      */
     public function __construct(public array $scopes, public Narrative $narrative) {}
+
+    /**
+     * @param  array<string,mixed>  $metadata
+     */
+    public function metadata(array $metadata): ScopedNarrative
+    {
+        $this->narrative->metadata($metadata);
+
+        return $this;
+    }
 }

@@ -27,6 +27,9 @@ use function Narrative\Support\isValidDateTime;
  */
 trait Narrator
 {
+    /** @var array<string, mixed> */
+    protected array $__METADATA__ = [];
+
     /** @return array<string|null>  */
     public static function books(): array
     {
@@ -142,6 +145,18 @@ trait Narrator
         }
 
         return (new DateTime(timezone: new DateTimeZone('UTC')))->format($format);
+    }
+
+    /**
+     * @param  array<string,mixed>|null  $metadata
+     */
+    public function metadata(?array $metadata = null): array
+    {
+        if ($metadata !== null) {
+            $this->__METADATA__ = $metadata;
+        }
+
+        return $this->__METADATA__;
     }
 
     /**
