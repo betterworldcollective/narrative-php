@@ -6,7 +6,7 @@ It inherently also becomes a good documentation of your application's events for
 
 ## Installation
 ```bash
-composer require betterworldcollective/narrative-php
+composer require betterworldcollective/scribe-php
 ```
 
 ## Usage 
@@ -88,6 +88,17 @@ Registrar::make($config)->registerEvents([
     UserRegistered::class, 
     CampaignCreated::class,
     DonationReceived::class,
+]);
+```
+
+Additionally, you'll want to register scopes in a similar fashion.
+
+```php
+use BetterWorld\Scribe\Registrar;
+
+Registrar::make($config)->registerScopes([
+    UserScope::class, 
+    OrganizationScope::class,    
 ]);
 ```
 
