@@ -10,26 +10,26 @@ abstract class Scope
 {
     protected static string $key;
 
-    protected static string $name;
+    protected static string $label;
 
     protected static string $context;
 
     /** @var string[] */
     protected static array $books;
 
-    /**
-     * @return array{id:string, name:string}[]
-     */
-    abstract public function values(): array;
+    final public function __construct(
+        public string|int $id,
+        public string $name
+    ) {}
 
     public static function key(): string
     {
         return static::$key ?? delimited_case(static::class);
     }
 
-    public static function name(): string
+    public static function label(): string
     {
-        return static::$key ?? headline(between(static::class, '\\', 'Scope'));
+        return static::$label ?? headline(between(static::class, '\\', 'Scope'));
     }
 
     public static function context(): string

@@ -2,8 +2,6 @@
 
 namespace BetterWorld\Scribe\Contracts;
 
-use BetterWorld\Scribe\ScopedNarrative;
-
 interface Narrative
 {
     /**
@@ -51,20 +49,4 @@ interface Narrative
      * The datetime of when the event occurred.
      */
     public function occurredAt(): string;
-
-    /**
-     * Add metadata to this narrative. Useful for non-narrative publishers.
-     * Passing NULL returns the current metadata, passing an array sets it.
-     *
-     * @param  array<string,mixed>|null  $metadata
-     * @return array<string,mixed>
-     */
-    public function metadata(?array $metadata = null): array;
-
-    /**
-     * Add a scope to this narrative.
-     *
-     * @param  array<string,string>  $scopes
-     */
-    public function scopedBy(array $scopes): ScopedNarrative;
 }

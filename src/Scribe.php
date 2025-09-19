@@ -36,11 +36,9 @@ final class Scribe
         return new Scribe($config);
     }
 
-    public function write(Narrative|ScopedNarrative $narrative): static
+    public function write(Narrative $narrative): static
     {
-        $baseNarrative = $narrative instanceof ScopedNarrative ? $narrative->narrative : $narrative;
-
-        foreach ($baseNarrative::books() as $book) {
+        foreach ($narrative::books() as $book) {
             $this->narrativeService->getBook($book)->write($narrative);
         }
 

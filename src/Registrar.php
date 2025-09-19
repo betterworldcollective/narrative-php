@@ -60,24 +60,13 @@ final class Registrar
     {
         foreach ($scopes as $scope) {
             $scopeKey = $scope::key();
-            $scopeName = $scope::name();
+            $scopeLabel = $scope::label();
 
             foreach ($this->narrativeService->bookPublisher(...$scope::books()) as $publisher) {
-                $storylineConnector = $this->narrativeService
-                    ->getStoryline($publisher);
-
-                if ($storylineConnector === null) {
-                    continue;
-                }
-
-                $storylineConnector
-                    ->scopes()
-                    ->upsert($scopeName, $scope::context(), $scopeKey);
-
-                $storylineConnector
-                    ->scopes()
-                    ->values()
-                    ->upsert($scopeKey, (new $scope)->values());
+                $this->narrativeService
+                    ->getStoryline($publisher)
+                    ?->scopes()
+                    ->upsert($scopeLabel, $scope::context(), $scopeKey);
             }
         }
 
