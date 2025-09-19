@@ -1,5 +1,5 @@
 {
-    "name": "betterworldcollective/narrative-php",
+    "name": "betterworldcollective/scribe-php",
     "description": "An object based analytics driver for PHP with built-in support for Narrative.",
     "license": "MIT",
     "authors": [
