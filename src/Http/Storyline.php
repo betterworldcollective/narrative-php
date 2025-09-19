@@ -1,11 +1,11 @@
 <?php
 
-namespace Narrative\Http;
+namespace BetterWorld\Scribe\Http;
 
-use Narrative\Http\Requests\Storyline\Reader;
-use Narrative\Http\Requests\Storyline\Writer;
-use Narrative\Http\Resources\Storyline\EventResource;
-use Narrative\Http\Resources\Storyline\ScopeResource;
+use BetterWorld\Scribe\Http\Requests\Storyline\Reader;
+use BetterWorld\Scribe\Http\Requests\Storyline\Writer;
+use BetterWorld\Scribe\Http\Resources\Storyline\EventResource;
+use BetterWorld\Scribe\Http\Resources\Storyline\ScopeResource;
 use Saloon\Http\Auth\TokenAuthenticator;
 use Saloon\Http\Connector;
 

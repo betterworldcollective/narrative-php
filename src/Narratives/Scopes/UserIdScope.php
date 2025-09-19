@@ -1,8 +1,8 @@
 <?php
 
-namespace Narrative\Narratives\Scopes;
+namespace BetterWorld\Scribe\Narratives\Scopes;
 
-use Narrative\Contracts\Scope;
+use BetterWorld\Scribe\Contracts\Scope;
 
 class UserIdScope implements Scope
 {

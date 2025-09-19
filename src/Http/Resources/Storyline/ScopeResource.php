@@ -1,12 +1,12 @@
 <?php
 
-namespace Narrative\Http\Resources\Storyline;
+namespace BetterWorld\Scribe\Http\Resources\Storyline;
 
-use Narrative\Http\Requests\Storyline\Scope\CreateScope;
-use Narrative\Http\Requests\Storyline\Scope\DeleteScope;
-use Narrative\Http\Requests\Storyline\Scope\ListScopes;
-use Narrative\Http\Requests\Storyline\Scope\UpdateScope;
-use Narrative\Http\Requests\Storyline\Scope\UpsertScope;
+use BetterWorld\Scribe\Http\Requests\Storyline\Scope\CreateScope;
+use BetterWorld\Scribe\Http\Requests\Storyline\Scope\DeleteScope;
+use BetterWorld\Scribe\Http\Requests\Storyline\Scope\ListScopes;
+use BetterWorld\Scribe\Http\Requests\Storyline\Scope\UpdateScope;
+use BetterWorld\Scribe\Http\Requests\Storyline\Scope\UpsertScope;
 use Saloon\Http\BaseResource;
 
 class ScopeResource extends BaseResource

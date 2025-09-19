@@ -1,6 +1,6 @@
 <?php
 
-namespace Narrative\Http\Requests\Storyline;
+namespace BetterWorld\Scribe\Http\Requests\Storyline;
 
 use Saloon\Enums\Method;
 use Saloon\Http\Request;

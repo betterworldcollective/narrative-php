@@ -1,8 +1,8 @@
 <?php
 
-namespace Narrative\Contracts;
+namespace BetterWorld\Scribe\Contracts;
 
-use Narrative\ScopedNarrative;
+use BetterWorld\Scribe\ScopedNarrative;
 
 interface Book
 {

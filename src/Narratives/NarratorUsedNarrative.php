@@ -1,15 +1,15 @@
 <?php
 
-namespace Narrative\Narratives;
+namespace BetterWorld\Scribe\Narratives;
 
-use Narrative\Attributes\Books;
-use Narrative\Attributes\Context;
-use Narrative\Attributes\Key;
-use Narrative\Attributes\Name;
-use Narrative\Attributes\OccurredAt;
-use Narrative\Concerns\Narrator;
-use Narrative\Contracts\Narrative;
-use Narrative\Enums\DataType;
+use BetterWorld\Scribe\Attributes\Books;
+use BetterWorld\Scribe\Attributes\Context;
+use BetterWorld\Scribe\Attributes\Key;
+use BetterWorld\Scribe\Attributes\Name;
+use BetterWorld\Scribe\Attributes\OccurredAt;
+use BetterWorld\Scribe\Concerns\Narrator;
+use BetterWorld\Scribe\Contracts\Narrative;
+use BetterWorld\Scribe\Enums\DataType;
 
 #[Books('main')]
 #[Context('This is an example.')]

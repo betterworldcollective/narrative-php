@@ -1,6 +1,6 @@
 <?php
 
-namespace Narrative\Contracts;
+namespace BetterWorld\Scribe\Contracts;
 
 interface Scope
 {

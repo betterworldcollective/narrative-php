@@ -1,8 +1,8 @@
 <?php
 
-namespace Narrative;
+namespace BetterWorld\Scribe;
 
-use Narrative\Contracts\Narrative;
+use BetterWorld\Scribe\Contracts\Narrative;
 
 class ScopedNarrative
 {
@@ -12,4 +12,14 @@ class ScopedNarrative
      * @param  array<string,string|array<mixed>>  $scopes
      */
     public function __construct(public array $scopes, public Narrative $narrative) {}
+
+    /**
+     * @param  array<string,mixed>  $metadata
+     */
+    public function metadata(array $metadata): ScopedNarrative
+    {
+        $this->narrative->metadata($metadata);
+
+        return $this;
+    }
 }

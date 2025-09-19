@@ -1,12 +1,12 @@
 <?php
 
-namespace Narrative\Http\Resources\Storyline;
+namespace BetterWorld\Scribe\Http\Resources\Storyline;
 
-use Narrative\Http\Requests\Storyline\Event\CreateEvent;
-use Narrative\Http\Requests\Storyline\Event\DeleteEvent;
-use Narrative\Http\Requests\Storyline\Event\ListEvents;
-use Narrative\Http\Requests\Storyline\Event\UpdateEvent;
-use Narrative\Http\Requests\Storyline\Event\UpsertEvent;
+use BetterWorld\Scribe\Http\Requests\Storyline\Event\CreateEvent;
+use BetterWorld\Scribe\Http\Requests\Storyline\Event\DeleteEvent;
+use BetterWorld\Scribe\Http\Requests\Storyline\Event\ListEvents;
+use BetterWorld\Scribe\Http\Requests\Storyline\Event\UpdateEvent;
+use BetterWorld\Scribe\Http\Requests\Storyline\Event\UpsertEvent;
 use Saloon\Http\BaseResource;
 
 class EventResource extends BaseResource

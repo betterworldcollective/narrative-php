@@ -1,6 +1,6 @@
 <?php
 
-namespace Narrative\Exceptions;
+namespace BetterWorld\Scribe\Exceptions;
 
 use Exception;
 

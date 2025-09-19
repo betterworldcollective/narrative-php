@@ -1,32 +1,35 @@
 <?php
 
-namespace Narrative\Concerns;
+namespace BetterWorld\Scribe\Concerns;
 
+use BetterWorld\Scribe\Attributes\Books;
+use BetterWorld\Scribe\Attributes\Context;
+use BetterWorld\Scribe\Attributes\Key;
+use BetterWorld\Scribe\Attributes\Name;
+use BetterWorld\Scribe\Attributes\OccurredAt;
+use BetterWorld\Scribe\Contracts\Narrative;
+use BetterWorld\Scribe\Exceptions\InvalidDatetimeStringException;
+use BetterWorld\Scribe\Exceptions\MissingContextException;
+use BetterWorld\Scribe\ScopedNarrative;
 use DateTime;
 use DateTimeZone;
-use Narrative\Attributes\Books;
-use Narrative\Attributes\Context;
-use Narrative\Attributes\Key;
-use Narrative\Attributes\Name;
-use Narrative\Attributes\OccurredAt;
-use Narrative\Contracts\Narrative;
-use Narrative\Exceptions\InvalidDatetimeStringException;
-use Narrative\Exceptions\MissingContextException;
-use Narrative\ScopedNarrative;
 use PrinceJohn\Reflect\Reflect;
 use ReflectionClass;
 use ReflectionProperty;
 
-use function Narrative\Support\between;
-use function Narrative\Support\delimited_case;
-use function Narrative\Support\headline;
-use function Narrative\Support\isValidDateTime;
+use function BetterWorld\Scribe\Support\between;
+use function BetterWorld\Scribe\Support\delimited_case;
+use function BetterWorld\Scribe\Support\headline;
+use function BetterWorld\Scribe\Support\isValidDateTime;
 
 /**
  * @phpstan-require-implements Narrative
  */
 trait Narrator
 {
+    /** @var array<string, mixed> */
+    protected array $__METADATA__ = [];
+
     /** @return array<string|null>  */
     public static function books(): array
     {
@@ -142,6 +145,18 @@ trait Narrator
         }
 
         return (new DateTime(timezone: new DateTimeZone('UTC')))->format($format);
+    }
+
+    /**
+     * @param  array<string,mixed>|null  $metadata
+     */
+    public function metadata(?array $metadata = null): array
+    {
+        if ($metadata !== null) {
+            $this->__METADATA__ = $metadata;
+        }
+
+        return $this->__METADATA__;
     }
 
     /**

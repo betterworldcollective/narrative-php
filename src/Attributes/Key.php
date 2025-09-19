@@ -1,6 +1,6 @@
 <?php
 
-namespace Narrative\Attributes;
+namespace BetterWorld\Scribe\Attributes;
 
 use Attribute;
 

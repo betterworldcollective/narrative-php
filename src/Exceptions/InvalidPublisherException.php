@@ -1,9 +1,9 @@
 <?php
 
-namespace Narrative\Exceptions;
+namespace BetterWorld\Scribe\Exceptions;
 
+use BetterWorld\Scribe\Contracts\Publisher;
 use Exception;
-use Narrative\Contracts\Publisher;
 
 class InvalidPublisherException extends Exception
 {

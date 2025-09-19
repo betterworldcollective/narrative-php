@@ -1,14 +1,14 @@
 <?php
 
-namespace Narrative\Publishers;
+namespace BetterWorld\Scribe\Publishers;
 
-use Narrative\Contracts\Book;
-use Narrative\Contracts\Publisher;
-use Narrative\Http\Storyline;
-use Narrative\NarrativeService;
-use Narrative\ScopedNarrative;
+use BetterWorld\Scribe\Contracts\Book;
+use BetterWorld\Scribe\Contracts\Publisher;
+use BetterWorld\Scribe\Http\Storyline;
+use BetterWorld\Scribe\NarrativeService;
+use BetterWorld\Scribe\ScopedNarrative;
 
-use function Narrative\Support\array_value;
+use function BetterWorld\Scribe\Support\array_value;
 
 class NarrativeApiPublisher implements Publisher
 {

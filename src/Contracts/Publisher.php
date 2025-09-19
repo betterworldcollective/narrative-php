@@ -1,8 +1,8 @@
 <?php
 
-namespace Narrative\Contracts;
+namespace BetterWorld\Scribe\Contracts;
 
-use Narrative\NarrativeService;
+use BetterWorld\Scribe\NarrativeService;
 
 interface Publisher
 {

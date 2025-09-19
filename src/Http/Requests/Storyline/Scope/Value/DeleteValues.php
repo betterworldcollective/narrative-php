@@ -1,6 +1,6 @@
 <?php
 
-namespace Narrative\Http\Requests\Storyline\Scope\Value;
+namespace BetterWorld\Scribe\Http\Requests\Storyline\Scope\Value;
 
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;

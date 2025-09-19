@@ -1,9 +1,9 @@
 <?php
 
-namespace Narrative\Attributes;
+namespace BetterWorld\Scribe\Attributes;
 
 use Attribute;
-use Narrative\Enums\DataType;
+use BetterWorld\Scribe\Enums\DataType;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_PROPERTY)]
 class Context
