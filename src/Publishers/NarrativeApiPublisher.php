@@ -58,9 +58,7 @@ class NarrativeApiPublisher implements Publisher
                 $scopeValues = [];
 
                 foreach ($narrativeScopes as $narrativeScope) {
-                    $scopes[] = [
-                        $narrativeScope->key() => $narrativeScope->id,
-                    ];
+                    $scopes[$narrativeScope->key()] = $narrativeScope->id;
 
                     $scopeValues[] = [
                         'id' => (string) $narrativeScope->id,
