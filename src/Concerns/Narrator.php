@@ -8,13 +8,22 @@ use BetterWorld\Scribe\Attributes\Key;
 use BetterWorld\Scribe\Attributes\Name;
 use BetterWorld\Scribe\Attributes\OccurredAt;
 use BetterWorld\Scribe\Contracts\Narrative;
+use BetterWorld\Scribe\Enums\DataType;
 use BetterWorld\Scribe\Exceptions\InvalidDatetimeStringException;
+use BetterWorld\Scribe\Exceptions\InvalidPropertyTypeException;
 use BetterWorld\Scribe\Exceptions\MissingContextException;
+use BetterWorld\Scribe\Support\ArrayList;
+use BetterWorld\Scribe\Support\Date;
+use BetterWorld\Scribe\Support\Json;
+use BetterWorld\Scribe\Support\Time;
 use DateTime;
+use DateTimeImmutable;
 use DateTimeZone;
 use PrinceJohn\Reflect\Reflect;
 use ReflectionClass;
+use ReflectionNamedType;
 use ReflectionProperty;
+use RuntimeException;
 
 use function BetterWorld\Scribe\Support\between;
 use function BetterWorld\Scribe\Support\delimited_case;
@@ -70,23 +79,41 @@ trait Narrator
         $definitions = [];
 
         foreach ((new ReflectionClass(static::class))->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
-            if ((string) $property->getType() !== 'string') {
-                continue;
+            $propertyName = $property->getName();
+            $propertyType = $property->getType();
+
+            if (! $propertyType instanceof ReflectionNamedType) {
+                throw InvalidPropertyTypeException::make($propertyName);
             }
 
-            $context = $property->getAttributes(Context::class);
+            $narrativeType = match ($propertyType->getName()) {
+                'string' => DataType::STRING,
+                'int' => DataType::INTEGER,
+                'float','double' => DataType::FLOAT,
+                'bool' => DataType::BOOLEAN,
+                ArrayList::class => DataType::LIST,
+                DateTime::class, DateTimeImmutable::class => DataType::DATETIME,
+                Date::class => DataType::DATE,
+                Time::class => DataType::TIME,
+                Json::class => DataType::JSON,
+                default => throw InvalidPropertyTypeException::make($propertyName)
+            };
 
-            if (empty($context)) {
+            /** @var Key|null $key */
+            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance();
+
+            $key = is_null($key) ? delimited_case($propertyName) : $key->key;
+
+            /** @var Context|null $context */
+            $context = ($property->getAttributes(Context::class)[0] ?? null)?->newInstance();
+
+            if ($context === null) {
                 throw MissingContextException::make();
             }
 
-            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance()->key
-                ?? delimited_case($property->getName());
-
-            $context = $context[0]->newInstance();
-
             $definitions[$key] = [
-                'type' => $context->type->value,
+                'type' => $narrativeType->value,
+                'nullable' => $propertyType->allowsNull(),
                 'context' => $context->context,
             ];
         }
@@ -100,14 +127,36 @@ trait Narrator
         $values = [];
 
         foreach ((new ReflectionClass(static::class))->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
-            if ((string) $property->getType() !== 'string') {
-                continue;
+            $propertyName = $property->getName();
+            $propertyType = $property->getType();
+
+            if (! $propertyType instanceof ReflectionNamedType) {
+                throw InvalidPropertyTypeException::make($propertyName);
             }
 
-            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance()->key
-                ?? delimited_case($property->getName());
+            $value = $property->getValue($this);
 
-            $values[$key] = $property->getValue($this);
+            $normalizedValue = match ($propertyType->getName()) {
+                'string' => $value,
+                'int' => $value,
+                'float','double' => $value,
+                'bool' => $value,
+                ArrayList::class => $value instanceof ArrayList ? $value->getList() : throw new RuntimeException,
+                DateTime::class, DateTimeImmutable::class => $value instanceof DateTime || $value instanceof DateTimeImmutable
+                        ? $value->format('Y-m-d H:i:s')
+                        : throw new RuntimeException,
+                Date::class => $value instanceof Date ? $value->toString() : throw new RuntimeException,
+                Time::class => $value instanceof Time ? $value->toString() : throw new RuntimeException,
+                Json::class => $value instanceof Json ? $value->toString() : throw new RuntimeException,
+                default => throw InvalidPropertyTypeException::make($propertyName)
+            };
+
+            /** @var Key|null $key */
+            $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance();
+
+            $key = is_null($key) ? delimited_case($propertyName) : $key->key;
+
+            $values[$key] = $normalizedValue;
         }
 
         return $values;

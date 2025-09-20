@@ -4,12 +4,13 @@ namespace BetterWorld\Scribe\Enums;
 
 enum DataType: string
 {
-    case String = 'string';
-    case Integer = 'integer';
-    case Float = 'float';
-    case Boolean = 'boolean';
-    case Date = 'date';
-    case Time = 'time';
-    case Datetime = 'datetime';
-    case Null = 'null';
+    case STRING = 'string';
+    case INTEGER = 'integer';
+    case FLOAT = 'float';
+    case BOOLEAN = 'boolean';
+    case LIST = 'list';
+    case DATETIME = 'datetime';
+    case DATE = 'date';
+    case TIME = 'time';
+    case JSON = 'json';
 }
