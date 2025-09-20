@@ -2,6 +2,7 @@
 
 namespace BetterWorld\Scribe\Support;
 
+use BetterWorld\Scribe\Exceptions\InvalidJsonException;
 use BetterWorld\Scribe\Exceptions\NotListException;
 
 final class ArrayList
@@ -14,6 +15,12 @@ final class ArrayList
     {
         if (! array_is_list($list)) {
             throw new NotListException;
+        }
+
+        $validJson = json_encode($list);
+
+        if ($validJson === false) {
+            throw new InvalidJsonException;
         }
 
         $this->list = $list;
