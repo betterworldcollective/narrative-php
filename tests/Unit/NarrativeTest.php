@@ -159,7 +159,7 @@ test('a narrative can generate a values array', function (): void {
         'tags' => ['test', 'narrative'],
         'time' => '05:25:50',
         'date' => '2025-07-08',
-        'json' => '{"from":"this","to":"that"}',
+        'json' => ['from' => 'this', 'to' => 'that'],
         'datetime_created' => '2025-03-02 01:10:11',
     ]);
 });

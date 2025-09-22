@@ -8,6 +8,9 @@ final readonly class Json
 {
     private string $json;
 
+    /** @var mixed[] */
+    private array $data;
+
     /**
      * @param  mixed[]|string  $json
      */
@@ -21,16 +24,19 @@ final readonly class Json
             }
 
             $this->json = $validJson;
+            $this->data = $json;
         }
 
         if (is_string($json)) {
-            json_decode($json);
+            /** @var mixed[] $data */
+            $data = json_decode($json, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new InvalidJsonException;
             }
 
             $this->json = $json;
+            $this->data = $data;
         }
     }
 
@@ -45,5 +51,11 @@ final readonly class Json
     public function toString(): string
     {
         return $this->json;
+    }
+
+    /** @return mixed[] */
+    public function toArray(): array
+    {
+        return $this->data;
     }
 }

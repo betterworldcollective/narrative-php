@@ -143,7 +143,7 @@ trait Narrator
                 DateTime::class => $value instanceof DateTime ? $value->toString() : throw new RuntimeException,
                 Date::class => $value instanceof Date ? $value->toString() : throw new RuntimeException,
                 Time::class => $value instanceof Time ? $value->toString() : throw new RuntimeException,
-                Json::class => $value instanceof Json ? $value->toString() : throw new RuntimeException,
+                Json::class => $value instanceof Json ? $value->toArray() : throw new RuntimeException,
                 default => throw InvalidPropertyTypeException::make($propertyName)
             };
 
