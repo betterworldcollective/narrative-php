@@ -3,17 +3,17 @@
 namespace BetterWorld\Scribe\Support;
 
 use BetterWorld\Scribe\Exceptions\InvalidDatetimeStringException;
-use DateTime;
 use DateTimeImmutable;
+use DateTimeInterface;
 
 final class Date
 {
-    private DateTime|DateTimeImmutable $date;
+    private DateTimeInterface $date;
 
     public function __construct(
-        DateTime|DateTimeImmutable|string $date
+        DateTimeInterface|string $date
     ) {
-        if ($date instanceof DateTime || $date instanceof DateTimeImmutable) {
+        if ($date instanceof DateTimeInterface) {
             $this->date = $date;
         } else {
             $dti = DateTimeImmutable::createFromFormat(DATE_FORMAT, $date);
@@ -26,7 +26,7 @@ final class Date
         }
     }
 
-    public static function is(DateTime|DateTimeImmutable|string $date): Date
+    public static function is(DateTimeInterface|string $date): Date
     {
         return new self($date);
     }
