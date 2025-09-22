@@ -8,6 +8,6 @@ class MissingContextException extends Exception
 {
     public static function make(): MissingContextException
     {
-        return new MissingContextException('[Context] attribute is missing.');
+        return new MissingContextException('Context is missing.');
     }
 }

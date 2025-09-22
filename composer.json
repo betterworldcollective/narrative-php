@@ -16,7 +16,10 @@
     },
     "require-dev": {
         "laravel/pint": "^1.24",
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "rector/rector": "^2.1",
+        "pestphp/pest": "^3.8"
+
     },
     "autoload": {
         "psr-4": {
@@ -28,11 +31,24 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "BetterWorld\\Scribe\\Tests\\": "tests/"
+            "Tests\\": "tests/"
         }
     },
     "scripts": {
         "lint": "@php vendor/bin/pint",
-        "analyse": "@php vendor/bin/phpstan analyse --memory-limit=-1"
+        "analyse": "@php vendor/bin/phpstan analyse --memory-limit=-1",
+        "rectify": "@php vendor/bin/rector process",
+        "test": "@php vendor/bin/pest",
+        "qa": [
+            "@lint",
+            "@analyse",
+            "@rectify",
+            "@test"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }

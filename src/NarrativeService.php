@@ -139,7 +139,7 @@ final class NarrativeService
         $defaultBook = array_value($this->config, 'default_book');
 
         foreach ($books as $book) {
-            $book = $book ?? $defaultBook;
+            $book ??= $defaultBook;
 
             /** @var string[] $bookPublishers */
             $bookPublishers = array_value($this->config, "books.{$book}.publishers");

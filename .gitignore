@@ -1,6 +1,7 @@
 /vendor/
 composer.lock
 phpstan.neon
+phpunit.xml
 
 # IDE files
 .idea/

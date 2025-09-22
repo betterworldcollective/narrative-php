@@ -5,7 +5,7 @@ namespace BetterWorld\Scribe\Support;
 use BetterWorld\Scribe\Exceptions\InvalidJsonException;
 use BetterWorld\Scribe\Exceptions\NotListException;
 
-final class ArrayList
+final readonly class ArrayList
 {
     /** @var mixed[] */
     private array $list;

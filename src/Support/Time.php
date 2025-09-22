@@ -6,7 +6,7 @@ use BetterWorld\Scribe\Exceptions\InvalidDatetimeStringException;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class Time
+final readonly class Time
 {
     private DateTimeInterface $time;
 
@@ -18,11 +18,11 @@ final class Time
         } else {
             $dti = DateTimeImmutable::createFromFormat(TIME_FORMAT, $time);
 
-            if ($dti instanceof DateTimeImmutable && $dti->format(TIME_FORMAT) === $time) {
-                $this->time = $dti;
+            if ($dti === false || $dti->format(TIME_FORMAT) !== $time) {
+                throw InvalidDatetimeStringException::make($time, TIME_FORMAT);
             }
 
-            throw InvalidDatetimeStringException::make($time, TIME_FORMAT);
+            $this->time = $dti;
         }
     }
 

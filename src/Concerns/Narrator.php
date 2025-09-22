@@ -16,10 +16,10 @@ use BetterWorld\Scribe\Exceptions\InvalidPropertyTypeException;
 use BetterWorld\Scribe\Exceptions\MissingContextException;
 use BetterWorld\Scribe\Support\ArrayList;
 use BetterWorld\Scribe\Support\Date;
+use BetterWorld\Scribe\Support\DateTime;
 use BetterWorld\Scribe\Support\Json;
 use BetterWorld\Scribe\Support\Time;
 use DateTimeImmutable;
-use DateTimeInterface;
 use DateTimeZone;
 use PrinceJohn\Reflect\Reflect;
 use ReflectionClass;
@@ -62,7 +62,13 @@ trait Narrator
 
     public static function context(): string
     {
-        return Reflect::class(static::class)->getOrFailAttributeInstance(Context::class)->context;
+        $context = Reflect::class(static::class)->getAttributeInstance(Context::class);
+
+        if ($context === null) {
+            throw MissingContextException::make();
+        }
+
+        return $context->context;
     }
 
     /** @return array<string,mixed> */
@@ -83,8 +89,8 @@ trait Narrator
                 'int' => DataType::INTEGER,
                 'float','double' => DataType::FLOAT,
                 'bool' => DataType::BOOLEAN,
-                'datetime' => DataType::DATETIME,
                 ArrayList::class => DataType::LIST,
+                DateTime::class => DataType::DATETIME,
                 Date::class => DataType::DATE,
                 Time::class => DataType::TIME,
                 Json::class => DataType::JSON,
@@ -94,7 +100,7 @@ trait Narrator
             /** @var Key|null $key */
             $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance();
 
-            $key = is_null($key) ? delimited_case($propertyName) : $key->key;
+            $key = $key->key ?? delimited_case($propertyName);
 
             /** @var Context|null $context */
             $context = ($property->getAttributes(Context::class)[0] ?? null)?->newInstance();
@@ -131,10 +137,10 @@ trait Narrator
             $normalizedValue = match ($propertyType->getName()) {
                 'string' => $value,
                 'int' => $value,
-                'float','double' => $value,
+                'float' => $value,
                 'bool' => $value,
-                'datetime' => $value instanceof DateTimeInterface ? $value->format(DATETIME_FORMAT) : throw new RuntimeException,
                 ArrayList::class => $value instanceof ArrayList ? $value->getList() : throw new RuntimeException,
+                DateTime::class => $value instanceof DateTime ? $value->toString() : throw new RuntimeException,
                 Date::class => $value instanceof Date ? $value->toString() : throw new RuntimeException,
                 Time::class => $value instanceof Time ? $value->toString() : throw new RuntimeException,
                 Json::class => $value instanceof Json ? $value->toString() : throw new RuntimeException,
@@ -144,7 +150,7 @@ trait Narrator
             /** @var Key|null $key */
             $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance();
 
-            $key = is_null($key) ? delimited_case($propertyName) : $key->key;
+            $key = $key->key ?? delimited_case($propertyName);
 
             $values[$key] = $normalizedValue;
         }
@@ -166,8 +172,8 @@ trait Narrator
 
             $occurredAt = $property->getValue($this);
 
-            if ($occurredAt instanceof DateTimeInterface) {
-                return $occurredAt->format(DATETIME_FORMAT);
+            if ($occurredAt instanceof DateTime) {
+                return $occurredAt->toString();
             }
         }
 
