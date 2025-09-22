@@ -2,8 +2,12 @@
 
 namespace BetterWorld\Scribe\Concerns;
 
+use BetterWorld\Scribe\Contracts\Scopes;
 use BetterWorld\Scribe\Scope;
 
+/**
+ * @phpstan-require-implements Scopes
+ */
 trait Scopable
 {
     /**

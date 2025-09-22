@@ -16,13 +16,13 @@ final class Date
         if ($date instanceof DateTime || $date instanceof DateTimeImmutable) {
             $this->date = $date;
         } else {
-            $dti = DateTimeImmutable::createFromFormat('Y-m-d', $date);
+            $dti = DateTimeImmutable::createFromFormat(DATE_FORMAT, $date);
 
-            if ($dti instanceof DateTimeImmutable && $dti->format('Y-m-d') === $date) {
+            if ($dti instanceof DateTimeImmutable && $dti->format(DATE_FORMAT) === $date) {
                 $this->date = $dti;
             }
 
-            throw InvalidDatetimeStringException::make($date, 'Y-m-d');
+            throw InvalidDatetimeStringException::make($date, DATE_FORMAT);
         }
     }
 
@@ -33,6 +33,6 @@ final class Date
 
     public function toString(): string
     {
-        return $this->date->format('Y-m-d');
+        return $this->date->format(DATE_FORMAT);
     }
 }

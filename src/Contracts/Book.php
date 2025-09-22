@@ -29,7 +29,7 @@ interface Book
     public function publishers(): array;
 
     /**
-     * Publish the narratives into all the defined publishers.
+     * Publish the narratives using all the defined publishers.
      */
     public function publish(): void;
 }

@@ -14,7 +14,7 @@ interface Narrative
     /**
      * The key or ID of the event that occurred.
      */
-    public static function key(): ?string;
+    public static function key(): string;
 
     /**
      * The name of the event that occurred.

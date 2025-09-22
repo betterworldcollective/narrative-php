@@ -2,6 +2,11 @@
 
 namespace BetterWorld\Scribe\Concerns;
 
+use BetterWorld\Scribe\Contracts\Metadata;
+
+/**
+ * @phpstan-require-implements Metadata
+ */
 trait Metadatable
 {
     /**

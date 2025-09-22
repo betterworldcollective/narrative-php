@@ -16,13 +16,13 @@ final class Time
         if ($time instanceof DateTime || $time instanceof DateTimeImmutable) {
             $this->time = $time;
         } else {
-            $dti = DateTimeImmutable::createFromFormat('H:i:s', $time);
+            $dti = DateTimeImmutable::createFromFormat(TIME_FORMAT, $time);
 
-            if ($dti instanceof DateTimeImmutable && $dti->format('H:i:s') === $time) {
+            if ($dti instanceof DateTimeImmutable && $dti->format(TIME_FORMAT) === $time) {
                 $this->time = $dti;
             }
 
-            throw InvalidDatetimeStringException::make($time, 'H:i:s');
+            throw InvalidDatetimeStringException::make($time, TIME_FORMAT);
         }
     }
 
@@ -33,6 +33,6 @@ final class Time
 
     public function toString(): string
     {
-        return $this->time->format('H:i:s');
+        return $this->time->format(TIME_FORMAT);
     }
 }

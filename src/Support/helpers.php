@@ -3,7 +3,12 @@
 namespace BetterWorld\Scribe\Support;
 
 use BetterWorld\Scribe\Exceptions\MissingArrayKeyException;
-use DateTime;
+use DateTimeImmutable;
+
+const DATETIME_FORMAT = 'Y-m-d H:i:s';
+const DATE_FORMAT = 'Y-m-d';
+const TIME_FORMAT = 'H:i:s';
+const TIMEZONE = 'UTC';
 
 /**
  * @param  mixed[]  $data
@@ -103,9 +108,9 @@ function headline(string $string, string $characters = '/[^a-z0-9]+/'): string
     return implode(' ', $words);
 }
 
-function isValidDateTime(string $dateTimeString, string $format = 'Y-m-d H:i:s'): bool
+function isValidDateTime(string $dateTimeString, string $format = DATETIME_FORMAT): bool
 {
-    $dt = DateTime::createFromFormat($format, $dateTimeString);
+    $dt = DateTimeImmutable::createFromFormat($format, $dateTimeString);
 
     // Check both parsing success and exact format match
     return ($dt !== false) && ($dt->format($format) === $dateTimeString);

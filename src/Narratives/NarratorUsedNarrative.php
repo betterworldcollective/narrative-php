@@ -6,12 +6,6 @@ use BetterWorld\Scribe\Attributes\Books;
 use BetterWorld\Scribe\Attributes\Context;
 use BetterWorld\Scribe\Attributes\Key;
 use BetterWorld\Scribe\Attributes\Name;
-use BetterWorld\Scribe\Concerns\Metadatable;
-use BetterWorld\Scribe\Concerns\Narrator;
-use BetterWorld\Scribe\Concerns\Scopable;
-use BetterWorld\Scribe\Contracts\Metadata;
-use BetterWorld\Scribe\Contracts\Narrative;
-use BetterWorld\Scribe\Contracts\Scopes;
 use BetterWorld\Scribe\Support\ArrayList;
 use BetterWorld\Scribe\Support\Date;
 use BetterWorld\Scribe\Support\Json;
@@ -22,12 +16,8 @@ use DateTime;
 #[Context('This is an example.')]
 #[Key('example:narrative:used')]
 #[Name('Narrator Used Example')]
-class NarratorUsedNarrative implements Metadata, Narrative, Scopes
+class NarratorUsedNarrative extends Narrative
 {
-    use Metadatable;
-    use Narrator;
-    use Scopable;
-
     public function __construct(
         #[Context('This is an example string property.')]
         #[Key('example_message')]
