@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * THIS IS JUST AN EXAMPLE FILE. THIS IS NOT INTENDED TO BE USED IN YOUR APPLICATION.
+ */
+
 namespace BetterWorld\Scribe\Narratives;
 
 use BetterWorld\Scribe\Attributes\Books;

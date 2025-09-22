@@ -13,8 +13,6 @@ final readonly class DateTime
     public function __construct(
         DateTimeInterface|string $datetime
     ) {
-
-        var_dump($datetime);
         if ($datetime instanceof DateTimeInterface) {
             $this->datetime = $datetime;
         } else {
