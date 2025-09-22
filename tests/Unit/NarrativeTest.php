@@ -3,34 +3,30 @@
 use const BetterWorld\Scribe\Support\DATE_FORMAT;
 use const BetterWorld\Scribe\Support\TIME_FORMAT;
 
-use BetterWorld\Scribe\Attributes\Books;
 use BetterWorld\Scribe\Attributes\Key;
 use BetterWorld\Scribe\Attributes\Name;
 use BetterWorld\Scribe\Exceptions\MissingContextException;
 use BetterWorld\Scribe\Narratives\Narrative;
+use BetterWorld\Scribe\Narratives\NarratorUsedNarrative;
 use BetterWorld\Scribe\Support\ArrayList;
 use BetterWorld\Scribe\Support\Date;
 use BetterWorld\Scribe\Support\DateTime;
 use BetterWorld\Scribe\Support\Json;
 use BetterWorld\Scribe\Support\Time;
-use Tests\Fixtures\FixtureTestedNarrative;
 
 test(' a narrative book defaults to null', function (): void {
-    $books = FixtureTestedNarrative::books();
-    expect($books)->toBe([null]);
+    $narrative = new class extends Narrative {};
+    expect($narrative::books())->toBe([null]);
 });
 
 test(' a narrative can define books', function (): void {
-    $narrative = new
-    #[Books('dev', 'test')]
-    class extends Narrative {};
-
-    expect($narrative::books())->toBe(['dev', 'test']);
+    $books = NarratorUsedNarrative::books();
+    expect($books)->toBe(['main']);
 });
 
 test('a narrative has a name', function (): void {
-    $name = FixtureTestedNarrative::name();
-    expect($name)->toBe('Fixture Tested');
+    $name = NarratorUsedNarrative::name();
+    expect($name)->toBe('Narrator Used');
 });
 
 test('a narrative can define a name', function (): void {
@@ -42,21 +38,21 @@ test('a narrative can define a name', function (): void {
 });
 
 test('a narrative has a key', function (): void {
-    $key = FixtureTestedNarrative::key();
-    expect($key)->toBe('fixture_tested');
+    $key = NarratorUsedNarrative::key();
+    expect($key)->toBe('narrator_used');
 });
 
 test('a narrative can define a key', function (): void {
     $narrative = new
-    #[Key('my-custom key')]
+    #[Key('test:my-custom key')]
     class extends Narrative {};
 
-    expect($narrative::key())->toBe('my_custom_key');
+    expect($narrative::key())->toBe('test:my_custom_key');
 });
 
 test(' a narrative has a context', function (): void {
-    $context = FixtureTestedNarrative::context();
-    expect($context)->toBe('This is a test');
+    $context = NarratorUsedNarrative::context();
+    expect($context)->toBe('This is an example.');
 });
 
 test('a narrative requires a context', function (): void {
@@ -90,7 +86,7 @@ test(' a narrative can frame the event message', function (): void {
 });
 
 test('a narrative can generate a definitions array', function (): void {
-    $definition = FixtureTestedNarrative::definitions();
+    $definition = NarratorUsedNarrative::definitions();
 
     expect($definition)->toBe([
         'name' => [
@@ -143,7 +139,7 @@ test('a narrative can generate a definitions array', function (): void {
 });
 
 test('a narrative can generate a values array', function (): void {
-    $narrative = new FixtureTestedNarrative(
+    $narrative = new NarratorUsedNarrative(
         'John Doe',
         123,
         20.25,
