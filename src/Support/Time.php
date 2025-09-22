@@ -18,11 +18,11 @@ final readonly class Time
         } else {
             $dti = DateTimeImmutable::createFromFormat(TIME_FORMAT, $time);
 
-            if ($dti instanceof DateTimeImmutable && $dti->format(TIME_FORMAT) === $time) {
-                $this->time = $dti;
+            if ($dti === false || $dti->format(TIME_FORMAT) !== $time) {
+                throw InvalidDatetimeStringException::make($time, TIME_FORMAT);
             }
 
-            throw InvalidDatetimeStringException::make($time, TIME_FORMAT);
+            $this->time = $dti;
         }
     }
 

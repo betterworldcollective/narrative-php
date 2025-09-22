@@ -7,3 +7,5 @@
 .gitattributes
 .gitignore
 .phpstan.neon.dist
+phpunit.xml.dist
+rector.php

@@ -77,12 +77,11 @@ function between(string $string, ?string $start = null, ?string $end = null): st
 
 /**
  * @param  string  $string  The original string to convert
- * @param  string  $characters  The allowed characters to be used
  */
-function headline(string $string, string $characters = '/[^a-z0-9]+/'): string
+function headline(string $string): string
 {
     // Normalize all non-alphanumerics to spaces
-    $s = (string) preg_replace($characters, ' ', $string);
+    $s = (string) preg_replace('/[^a-zA-Z0-9]+/', ' ', $string);
 
     // Insert spaces between lowercase/number and Uppercase (helloWorld -> hello World)
     $s = (string) preg_replace('/([a-z0-9])([A-Z])/', '$1 $2', $s);
