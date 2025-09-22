@@ -4,7 +4,7 @@ namespace BetterWorld\Scribe\Support;
 
 use BetterWorld\Scribe\Exceptions\InvalidJsonException;
 
-final class Json
+final readonly class Json
 {
     private string $json;
 

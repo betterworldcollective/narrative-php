@@ -1,5 +1,8 @@
 <?php
 
+use BetterWorld\Scribe\Publishers\MixpanelPublisher;
+use BetterWorld\Scribe\Publishers\NarrativeApiPublisher;
+
 return [
 
     /*
@@ -14,7 +17,7 @@ return [
     'publishers' => [
 
         'narrative-api' => [
-            'class' => \BetterWorld\Scribe\Publishers\NarrativeApiPublisher::class,
+            'class' => NarrativeApiPublisher::class,
             'options' => [
                 'host' => 'https://narrative.cloud/api',
                 'storyline_id' => 'your-storyline-id',
@@ -23,7 +26,7 @@ return [
         ],
 
         'mixpanel' => [
-            'class' => \BetterWorld\Scribe\Publishers\MixpanelPublisher::class,
+            'class' => MixpanelPublisher::class,
             'options' => [
                 'token' => 'your-mixpanel-token',
             ],

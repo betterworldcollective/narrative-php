@@ -6,7 +6,7 @@ use BetterWorld\Scribe\Exceptions\InvalidDatetimeStringException;
 use DateTimeImmutable;
 use DateTimeInterface;
 
-final class Time
+final readonly class Time
 {
     private DateTimeInterface $time;
 

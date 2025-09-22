@@ -48,9 +48,8 @@ function delimited_case(string $string, string $delimiter = '_', string $charact
 
     // Trim spaces at start/end and replace remaining spaces with delimiter
     $string = trim($string);
-    $string = (string) preg_replace('/\s+/', $delimiter, $string);
 
-    return $string;
+    return (string) preg_replace('/\s+/', $delimiter, $string);
 }
 
 function between(string $string, ?string $start = null, ?string $end = null): string
@@ -97,7 +96,7 @@ function headline(string $string, string $characters = '/[^a-z0-9]+/'): string
     }
 
     // Capitalize words, preserving ALL-CAPS acronyms (len >= 2)
-    $words = array_map(function ($w) {
+    $words = array_map(function ($w): string {
         if (preg_match('/^[A-Z0-9]{2,}$/', $w)) {
             return $w; // keep acronyms (AA, HTTP, S3)
         }

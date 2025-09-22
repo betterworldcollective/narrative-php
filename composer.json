@@ -16,7 +16,8 @@
     },
     "require-dev": {
         "laravel/pint": "^1.24",
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "rector/rector": "^2.1"
     },
     "autoload": {
         "psr-4": {
@@ -33,6 +34,12 @@
     },
     "scripts": {
         "lint": "@php vendor/bin/pint",
-        "analyse": "@php vendor/bin/phpstan analyse --memory-limit=-1"
+        "analyse": "@php vendor/bin/phpstan analyse --memory-limit=-1",
+        "rectify": "@php vendor/bin/rector process",
+        "qa": [
+            "@lint",
+            "@analyse",
+            "@rectify"
+        ]
     }
 }

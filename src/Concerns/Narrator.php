@@ -94,7 +94,7 @@ trait Narrator
             /** @var Key|null $key */
             $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance();
 
-            $key = is_null($key) ? delimited_case($propertyName) : $key->key;
+            $key = $key->key ?? delimited_case($propertyName);
 
             /** @var Context|null $context */
             $context = ($property->getAttributes(Context::class)[0] ?? null)?->newInstance();
@@ -144,7 +144,7 @@ trait Narrator
             /** @var Key|null $key */
             $key = ($property->getAttributes(Key::class)[0] ?? null)?->newInstance();
 
-            $key = is_null($key) ? delimited_case($propertyName) : $key->key;
+            $key = $key->key ?? delimited_case($propertyName);
 
             $values[$key] = $normalizedValue;
         }
