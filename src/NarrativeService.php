@@ -51,7 +51,7 @@ final class NarrativeService
             /** @var array<string,mixed> $options */
             $options = array_value($config, 'options');
 
-            $this->publishers[$key] = new $class($key, $this, $options);
+            $this->publishers[$key] = new $class($key, $options);
         }
     }
 
