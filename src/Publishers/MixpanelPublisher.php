@@ -9,8 +9,8 @@ use BetterWorld\Scribe\Contracts\Publisher;
 use BetterWorld\Scribe\Exceptions\MissingArrayKeyException;
 use Exception;
 use Mixpanel;
-
 use Producers_MixpanelGroups;
+
 use function BetterWorld\Scribe\Support\array_value;
 
 final readonly class MixpanelPublisher implements Publisher
@@ -19,6 +19,7 @@ final readonly class MixpanelPublisher implements Publisher
 
     /**
      * @param  array<string,mixed>  $options
+     *
      * @throws MissingArrayKeyException
      */
     public function __construct(
@@ -42,7 +43,7 @@ final readonly class MixpanelPublisher implements Publisher
             try {
                 $this->publishNarrative($narrative);
             } catch (Exception $e) {
-                error_log('Mixpanel tracking failed: ' . $e->getMessage());
+                error_log('Mixpanel tracking failed: '.$e->getMessage());
             }
         }
 
@@ -50,7 +51,7 @@ final readonly class MixpanelPublisher implements Publisher
     }
 
     /**
-     * @param Narrative $narrative
+     * @param  Narrative  $narrative
      */
     private function publishNarrative($narrative): void
     {
@@ -65,18 +66,18 @@ final readonly class MixpanelPublisher implements Publisher
     }
 
     /**
-     * @param array<string, mixed> $metadata
+     * @param  array<string, mixed>  $metadata
      */
     private function handleUserMetadata(array $metadata): ?string
     {
-        if (!isset($metadata['user']) || !is_array($metadata['user'])) {
+        if (! isset($metadata['user']) || ! is_array($metadata['user'])) {
             return null;
         }
 
         $userData = $metadata['user'];
         $userId = $userData['id'] ?? null;
 
-        if (!is_string($userId)) {
+        if (! is_string($userId)) {
             return null;
         }
 
@@ -90,18 +91,18 @@ final readonly class MixpanelPublisher implements Publisher
     }
 
     /**
-     * @param array<string, mixed> $metadata
+     * @param  array<string, mixed>  $metadata
      */
     private function handleOrganizationMetadata(array $metadata): ?string
     {
-        if (!isset($metadata['organization']) || !is_array($metadata['organization'])) {
+        if (! isset($metadata['organization']) || ! is_array($metadata['organization'])) {
             return null;
         }
 
         $orgData = $metadata['organization'];
         $orgId = $orgData['id'] ?? null;
 
-        if (!is_string($orgId)) {
+        if (! is_string($orgId)) {
             return null;
         }
 
@@ -115,7 +116,7 @@ final readonly class MixpanelPublisher implements Publisher
     }
 
     /**
-     * @param array<string, mixed> $trackProperties
+     * @param  array<string, mixed>  $trackProperties
      */
     private function addContextToTrackProperties(array &$trackProperties, ?string $userId, ?string $orgId): void
     {
@@ -130,8 +131,7 @@ final readonly class MixpanelPublisher implements Publisher
     }
 
     /**
-     * @param Narrative $narrative
-     * @param array<string, mixed> $trackProperties
+     * @param  array<string, mixed>  $trackProperties
      */
     private function trackEvent(Narrative $narrative, array $trackProperties): void
     {

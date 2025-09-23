@@ -13,9 +13,9 @@ function createMixpanelPublisher(string $token = 'test-token'): MixpanelPublishe
 /**
  * @param  array<string, mixed>  $values
  * @param  array<string, mixed>|null  $metadata
- * @return \BetterWorld\Scribe\Contracts\Narrative&\BetterWorld\Scribe\Contracts\Metadata
+ * @return \BetterWorld\Scribe\Contracts\Narrative&Metadata
  */
-function createTestNarrative(array $values, ?array $metadata = null)
+function createTestNarrative(array $values, ?array $metadata = null): object
 {
     return new class($values, $metadata) extends Narrative implements Metadata
     {
@@ -24,8 +24,8 @@ function createTestNarrative(array $values, ?array $metadata = null)
          * @param  array<string, mixed>|null  $eventMetadata
          */
         public function __construct(
-            private array $eventValues,
-            private ?array $eventMetadata
+            private readonly array $eventValues,
+            private readonly ?array $eventMetadata
         ) {}
 
         public static function key(): string
