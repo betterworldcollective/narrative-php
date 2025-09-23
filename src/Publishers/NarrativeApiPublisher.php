@@ -6,21 +6,19 @@ use BetterWorld\Scribe\Contracts\Book;
 use BetterWorld\Scribe\Contracts\Publisher;
 use BetterWorld\Scribe\Contracts\Scopes;
 use BetterWorld\Scribe\Http\Storyline;
-use BetterWorld\Scribe\NarrativeService;
 
 use function BetterWorld\Scribe\Support\array_value;
 
-class NarrativeApiPublisher implements Publisher
+final readonly class NarrativeApiPublisher implements Publisher
 {
-    protected Storyline $storyline;
+    private Storyline $storyline;
 
     /**
      * @param  array<string,mixed>  $options
      */
     public function __construct(
-        public string $name,
-        protected NarrativeService $narrativeService,
-        protected array $options = [],
+        private string $name,
+        private array $options = [],
     ) {
         /** @var string $host */
         $host = array_value($this->options, 'host');

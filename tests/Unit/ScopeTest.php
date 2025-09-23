@@ -1,7 +1,7 @@
 <?php
 
+use BetterWorld\Scribe\Examples\Scopes\UserScope;
 use BetterWorld\Scribe\Exceptions\MissingContextException;
-use BetterWorld\Scribe\Narratives\Scopes\UserScope;
 use BetterWorld\Scribe\Scope;
 
 test('a scope has a key', function (): void {

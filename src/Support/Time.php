@@ -26,7 +26,7 @@ final readonly class Time
         }
     }
 
-    public static function is(DateTimeInterface|string $time): Time
+    public static function as(DateTimeInterface|string $time): Time
     {
         return new self($time);
     }

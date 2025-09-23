@@ -4,7 +4,7 @@
  * THIS IS JUST AN EXAMPLE FILE. THIS IS NOT INTENDED TO BE USED IN YOUR APPLICATION.
  */
 
-namespace BetterWorld\Scribe\Narratives\Scopes;
+namespace BetterWorld\Scribe\Examples\Scopes;
 
 use BetterWorld\Scribe\Scope;
 

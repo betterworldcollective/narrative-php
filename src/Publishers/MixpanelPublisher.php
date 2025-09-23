@@ -5,23 +5,21 @@ namespace BetterWorld\Scribe\Publishers;
 use BetterWorld\Scribe\Contracts\Book;
 use BetterWorld\Scribe\Contracts\Metadata;
 use BetterWorld\Scribe\Contracts\Publisher;
-use BetterWorld\Scribe\NarrativeService;
 use Exception;
 use Mixpanel;
 
 use function BetterWorld\Scribe\Support\array_value;
 
-class MixpanelPublisher implements Publisher
+final readonly class MixpanelPublisher implements Publisher
 {
-    protected Mixpanel $mixpanel;
+    private Mixpanel $mixpanel;
 
     /**
      * @param  array<string,mixed>  $options
      */
     public function __construct(
-        protected string $name,
-        protected NarrativeService $narrativeService,
-        protected array $options = []
+        private string $name,
+        private array $options = []
     ) {
         /** @var string $token */
         $token = array_value($this->options, 'token');

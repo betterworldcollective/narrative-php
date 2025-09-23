@@ -9,6 +9,6 @@ class InvalidPublisherException extends Exception
 {
     public static function make(string $class): InvalidPublisherException
     {
-        return new InvalidPublisherException("[$class] must implement ".Publisher::class);
+        return new InvalidPublisherException("[$class] must implement ".Publisher::class.'.');
     }
 }

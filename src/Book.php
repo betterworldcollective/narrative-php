@@ -5,7 +5,7 @@ namespace BetterWorld\Scribe;
 use BetterWorld\Scribe\Contracts\Narrative;
 use BetterWorld\Scribe\Contracts\Publisher;
 
-class Book implements Contracts\Book
+final class Book implements Contracts\Book
 {
     /**
      * @var array<Narrative>
@@ -17,7 +17,7 @@ class Book implements Contracts\Book
 
     /** @param Publisher[] $publishers  */
     public function __construct(
-        public string $name,
+        protected string $name,
         protected array $publishers,
     ) {}
 

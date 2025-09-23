@@ -2,8 +2,6 @@
 
 namespace BetterWorld\Scribe\Contracts;
 
-use BetterWorld\Scribe\NarrativeService;
-
 interface Publisher
 {
     /**
@@ -11,7 +9,7 @@ interface Publisher
      *
      * @param  array<string,mixed>  $options
      */
-    public function __construct(string $name, NarrativeService $narrativeService, array $options = []);
+    public function __construct(string $name, array $options = []);
 
     /**
      * Get the name of the Publisher.

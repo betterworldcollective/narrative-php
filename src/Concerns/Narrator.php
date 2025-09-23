@@ -87,7 +87,7 @@ trait Narrator
             $narrativeType = match ($propertyType->getName()) {
                 'string' => DataType::STRING,
                 'int' => DataType::INTEGER,
-                'float','double' => DataType::FLOAT,
+                'float' => DataType::FLOAT,
                 'bool' => DataType::BOOLEAN,
                 ArrayList::class => DataType::LIST,
                 DateTime::class => DataType::DATETIME,

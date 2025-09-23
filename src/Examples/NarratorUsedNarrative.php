@@ -4,12 +4,13 @@
  * THIS IS JUST AN EXAMPLE FILE. THIS IS NOT INTENDED TO BE USED IN YOUR APPLICATION.
  */
 
-namespace BetterWorld\Scribe\Narratives;
+namespace BetterWorld\Scribe\Examples;
 
 use BetterWorld\Scribe\Attributes\Books;
 use BetterWorld\Scribe\Attributes\Context;
 use BetterWorld\Scribe\Attributes\Key;
 use BetterWorld\Scribe\Attributes\OccurredAt;
+use BetterWorld\Scribe\Narrative;
 use BetterWorld\Scribe\Support\ArrayList;
 use BetterWorld\Scribe\Support\Date;
 use BetterWorld\Scribe\Support\DateTime;

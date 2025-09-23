@@ -58,7 +58,7 @@ function between(string $string, ?string $start = null, ?string $end = null): st
 
     // If start delimiter is provided, cut after the *last* occurrence
     if ($start !== null) {
-        $pos = strrpos($result, $start); // <— strrpos instead of strpos
+        $pos = strrpos($result, $start);
         if ($pos !== false) {
             $result = substr($result, $pos + strlen($start));
         }

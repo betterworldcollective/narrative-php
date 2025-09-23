@@ -24,6 +24,11 @@ abstract class Scope
         public string $name
     ) {}
 
+    public static function as(string|int $id, string $name): static
+    {
+        return new static($id, $name);
+    }
+
     public static function key(): string
     {
         return static::$key ?? delimited_case(between(static::class, '\\'));
