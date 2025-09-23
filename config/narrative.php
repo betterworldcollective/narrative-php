@@ -16,7 +16,7 @@ return [
 
     'publishers' => [
 
-        'narrative-api' => [
+        'narrative-main' => [
             'class' => NarrativeApiPublisher::class,
             'options' => [
                 'host' => 'https://narrative.cloud/api',
@@ -59,7 +59,7 @@ return [
     'books' => [
 
         'main' => [
-            'publishers' => ['narrative-api', 'mixpanel'],
+            'publishers' => ['narrative-main', 'mixpanel'],
         ],
 
     ],

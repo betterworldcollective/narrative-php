@@ -179,7 +179,7 @@ class UserRegisteredNarrative extends Narrative
     // For static metadata you can override this method and specify it here directly.
     public function metadata() : array
     {        
-        return [
+        return array_merge(parent::metadata(), [
            'tags' => ['test', 'dev'],           
         ];
     }
@@ -219,9 +219,9 @@ class UserRegisteredNarrative extends Narrative
     {        
         $auth = auth()->user;
         
-        return [
+        return array_merge(parent::scopes(), [
            UserScope::as($auth->id, $auth->email)           
-        ];
+        ]);
     }
 }
 
