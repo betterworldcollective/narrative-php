@@ -6,6 +6,7 @@ use BetterWorld\Scribe\Contracts\Book;
 use BetterWorld\Scribe\Contracts\Metadata;
 use BetterWorld\Scribe\Contracts\Narrative;
 use BetterWorld\Scribe\Contracts\Publisher;
+use BetterWorld\Scribe\Exceptions\MissingArrayKeyException;
 use Exception;
 use Mixpanel;
 
@@ -18,6 +19,7 @@ final readonly class MixpanelPublisher implements Publisher
 
     /**
      * @param  array<string,mixed>  $options
+     * @throws MissingArrayKeyException
      */
     public function __construct(
         private string $name,

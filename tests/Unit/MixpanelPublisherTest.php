@@ -2,23 +2,12 @@
 
 use BetterWorld\Scribe\Contracts\Book;
 use BetterWorld\Scribe\Contracts\Metadata;
-use BetterWorld\Scribe\Narratives\Narrative;
-use BetterWorld\Scribe\NarrativeService;
+use BetterWorld\Scribe\Narrative;
 use BetterWorld\Scribe\Publishers\MixpanelPublisher;
-
-function createNarrativeService(): NarrativeService
-{
-    return new NarrativeService([
-        'publishers' => [],
-        'default_book' => 'main',
-        'books' => ['main' => ['publishers' => []]],
-        'auto_publish' => false,
-    ]);
-}
 
 function createMixpanelPublisher(string $token = 'test-token'): MixpanelPublisher
 {
-    return new MixpanelPublisher('test-mixpanel', createNarrativeService(), ['token' => $token]);
+    return new MixpanelPublisher('test-mixpanel', ['token' => $token]);
 }
 
 /**
@@ -26,7 +15,7 @@ function createMixpanelPublisher(string $token = 'test-token'): MixpanelPublishe
  * @param  array<string, mixed>|null  $metadata
  * @return \BetterWorld\Scribe\Contracts\Narrative&\BetterWorld\Scribe\Contracts\Metadata
  */
-function createTestNarrative(string $key, array $values, ?array $metadata = null)
+function createTestNarrative(array $values, ?array $metadata = null)
 {
     return new class($values, $metadata) extends Narrative implements Metadata
     {
@@ -117,7 +106,7 @@ test('mixpanel publisher creates mixpanel instance with token', function (): voi
 
 test('mixpanel publisher publishes narratives without metadata', function (): void {
     $publisher = createMixpanelPublisher();
-    $narrative = createTestNarrative('test_event', ['property1' => 'value1', 'property2' => 'value2']);
+    $narrative = createTestNarrative(['property1' => 'value1', 'property2' => 'value2']);
     $book = createTestBook([$narrative]);
 
     $result = $publisher->publish($book);
@@ -136,7 +125,7 @@ test('mixpanel publisher publishes narratives with user metadata', function (): 
             ],
         ],
     ];
-    $narrative = createTestNarrative('user_action', ['action' => 'login'], $metadata);
+    $narrative = createTestNarrative(['action' => 'login'], $metadata);
     $book = createTestBook([$narrative]);
 
     $result = $publisher->publish($book);
@@ -155,7 +144,7 @@ test('mixpanel publisher publishes narratives with organization metadata', funct
             ],
         ],
     ];
-    $narrative = createTestNarrative('org_event', ['action' => 'org_created'], $metadata);
+    $narrative = createTestNarrative(['action' => 'org_created'], $metadata);
     $book = createTestBook([$narrative]);
 
     $result = $publisher->publish($book);
@@ -180,7 +169,7 @@ test('mixpanel publisher publishes narratives with both user and organization me
             ],
         ],
     ];
-    $narrative = createTestNarrative('company_event', ['action' => 'login'], $metadata);
+    $narrative = createTestNarrative(['action' => 'login'], $metadata);
     $book = createTestBook([$narrative]);
 
     $result = $publisher->publish($book);
@@ -190,8 +179,8 @@ test('mixpanel publisher publishes narratives with both user and organization me
 
 test('mixpanel publisher handles multiple narratives in book', function (): void {
     $publisher = createMixpanelPublisher();
-    $narrative1 = createTestNarrative('event1', ['data' => 'value1']);
-    $narrative2 = createTestNarrative('event2', ['data' => 'value2']);
+    $narrative1 = createTestNarrative(['data' => 'value1']);
+    $narrative2 = createTestNarrative(['data' => 'value2']);
     $book = createTestBook([$narrative1, $narrative2]);
 
     $result = $publisher->publish($book);
@@ -210,7 +199,7 @@ test('mixpanel publisher handles empty book', function (): void {
 
 test('mixpanel publisher handles exceptions gracefully', function (): void {
     $publisher = createMixpanelPublisher('invalid-token');
-    $narrative = createTestNarrative('test_event', ['data' => 'value']);
+    $narrative = createTestNarrative(['data' => 'value']);
     $book = createTestBook([$narrative]);
 
     $result = $publisher->publish($book);
