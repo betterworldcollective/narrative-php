@@ -3,10 +3,10 @@
 *.md diff=markdown
 *.php diff=php
 
-/src/Examples
-/tests
-.gitattributes
-.gitignore
-.phpstan.neon.dist
-phpunit.xml.dist
-rector.php
+/src/Examples       export-ignore
+/tests              export-ignore
+.gitattributes      export-ignore
+.gitignore          export-ignore
+.phpstan.neon.dist  export-ignore
+phpunit.xml.dist    export-ignore
+rector.php          export-ignore
