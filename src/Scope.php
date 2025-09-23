@@ -24,7 +24,7 @@ abstract class Scope
         public string $name
     ) {}
 
-    public static function as(string|int $id, string $name): static
+    public static function of(string|int $id, string $name): static
     {
         return new static($id, $name);
     }

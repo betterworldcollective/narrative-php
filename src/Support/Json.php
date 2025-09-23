@@ -43,7 +43,7 @@ final readonly class Json
     /**
      * @param  mixed[]|string  $json
      */
-    public static function as(array|string $json): Json
+    public static function of(array|string $json): Json
     {
         return new self($json);
     }

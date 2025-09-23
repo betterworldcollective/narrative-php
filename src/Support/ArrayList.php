@@ -27,7 +27,7 @@ final readonly class ArrayList
     }
 
     /** @param mixed[] $list */
-    public static function as(array $list): ArrayList
+    public static function of(array $list): ArrayList
     {
         return new self($list);
     }

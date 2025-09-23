@@ -74,7 +74,7 @@ $config = [
 ];
 
 Scribe::make($config)
-    ->write(new UserRegistered(1, 'John Doe', 'john@doe.com', DateTime::as('2025-09-08 10:11:22')));
+    ->write(new UserRegistered(1, 'John Doe', 'john@doe.com', DateTime::of('2025-09-08 10:11:22')));
 ```
 
 Events written by the Scribe that is unrecognized by `Narrative Cloud` will be ignored. 

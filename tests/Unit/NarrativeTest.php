@@ -144,11 +144,11 @@ test('a narrative can generate a values array', function (): void {
         123,
         20.25,
         false,
-        ArrayList::as(['test', 'narrative']),
-        Time::as(\DateTime::createFromFormat(TIME_FORMAT, '05:25:50')),
-        Date::as(DateTimeImmutable::createFromFormat(DATE_FORMAT, '2025-07-08')),
-        Json::as(['from' => 'this', 'to' => 'that']),
-        DateTime::as('2025-03-02 01:10:11'),
+        ArrayList::of(['test', 'narrative']),
+        Time::of(\DateTime::createFromFormat(TIME_FORMAT, '05:25:50')),
+        Date::of(DateTimeImmutable::createFromFormat(DATE_FORMAT, '2025-07-08')),
+        Json::of(['from' => 'this', 'to' => 'that']),
+        DateTime::of('2025-03-02 01:10:11'),
     );
 
     expect($narrative->values())->toBe([
