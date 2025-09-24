@@ -1,6 +1,5 @@
 <?php
 
-use BetterWorld\Scribe\Publishers\MixpanelPublisher;
 use BetterWorld\Scribe\Publishers\NarrativeApiPublisher;
 
 return [
@@ -24,14 +23,6 @@ return [
                 'storyline_token' => 'your-storyline-token',
             ],
         ],
-
-        'mixpanel' => [
-            'class' => MixpanelPublisher::class,
-            'options' => [
-                'token' => 'your-mixpanel-token',
-            ],
-        ],
-
     ],
 
     /*
