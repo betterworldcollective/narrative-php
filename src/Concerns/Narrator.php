@@ -48,10 +48,7 @@ trait Narrator
         $key = Reflect::class(static::class)->getAttributeInstance(Key::class)->key
             ?? between(static::class, '\\', 'Narrative');
 
-        return delimited_case(
-            string: $key,
-            characters: '/[^a-z0-9.]+/'
-        );
+        return delimited_case($key);
     }
 
     public static function name(): string

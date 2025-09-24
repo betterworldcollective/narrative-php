@@ -34,7 +34,7 @@ function array_value(array $data, string $key): mixed
  * @param  string  $delimiter  The delimiter to use
  * @param  string  $characters  The allowed characters to be used
  */
-function delimited_case(string $string, string $delimiter = '_', string $characters = '/[^a-z0-9]+/'): string
+function delimited_case(string $string, string $delimiter = '_', string $characters = '/[^a-z0-9.]+/'): string
 {
     // Insert spaces before capital letters (to handle CamelCase / PascalCase)
     $string = (string) preg_replace('/([a-z])([A-Z])/', '$1 $2', $string);
