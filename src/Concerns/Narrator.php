@@ -25,7 +25,6 @@ use PrinceJohn\Reflect\Reflect;
 use ReflectionClass;
 use ReflectionNamedType;
 use ReflectionProperty;
-use RuntimeException;
 
 use function BetterWorld\Scribe\Support\between;
 use function BetterWorld\Scribe\Support\delimited_case;
@@ -136,11 +135,11 @@ trait Narrator
                 'int' => $value,
                 'float' => $value,
                 'bool' => $value,
-                ArrayList::class => $value instanceof ArrayList ? $value->getList() : throw new RuntimeException,
-                DateTime::class => $value instanceof DateTime ? $value->toString() : throw new RuntimeException,
-                Date::class => $value instanceof Date ? $value->toString() : throw new RuntimeException,
-                Time::class => $value instanceof Time ? $value->toString() : throw new RuntimeException,
-                Json::class => $value instanceof Json ? $value->toArray() : throw new RuntimeException,
+                ArrayList::class => $value instanceof ArrayList ? $value->getList() : null,
+                DateTime::class => $value instanceof DateTime ? $value->toString() : null,
+                Date::class => $value instanceof Date ? $value->toString() : null,
+                Time::class => $value instanceof Time ? $value->toString() : null,
+                Json::class => $value instanceof Json ? $value->toArray() : null,
                 default => throw InvalidPropertyTypeException::make($propertyName)
             };
 

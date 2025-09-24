@@ -162,4 +162,28 @@ test('a narrative can generate a values array', function (): void {
         'json' => ['from' => 'this', 'to' => 'that'],
         'datetime_created' => '2025-03-02 01:10:11',
     ]);
+
+    $narrativeWithNull = new NarratorUsedNarrative(
+        'John Doe',
+        123,
+        20.25,
+        false,
+        ArrayList::of(['test', 'narrative']),
+        Time::of(\DateTime::createFromFormat(TIME_FORMAT, '05:25:50')),
+        Date::of(DateTimeImmutable::createFromFormat(DATE_FORMAT, '2025-07-08')),
+        null,
+        null,
+    );
+
+    expect($narrativeWithNull->values())->toBe([
+        'name' => 'John Doe',
+        'count' => 123,
+        'amount' => 20.25,
+        'is_active' => false,
+        'tags' => ['test', 'narrative'],
+        'time' => '05:25:50',
+        'date' => '2025-07-08',
+        'json' => null,
+        'datetime_created' => null,
+    ]);
 });
