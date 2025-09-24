@@ -152,7 +152,7 @@ use BetterWorld\Scribe\Support\DateTime;
 #[Books("test")]
 #[Context("This event occurs when a user creates an account.")]
 #[Name("User Registration")]
-#[Key("account:user-registration")]
+#[Key("account.user-registration.submitted")]
 class UserRegisteredNarrative extends Narrative
 {
     public function __construct(
