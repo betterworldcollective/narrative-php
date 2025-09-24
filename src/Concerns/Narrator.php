@@ -50,7 +50,7 @@ trait Narrator
 
         return delimited_case(
             string: $key,
-            characters: '/[^a-z0-9:]+/'
+            characters: '/[^a-z0-9.]+/'
         );
     }
 

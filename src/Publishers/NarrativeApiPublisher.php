@@ -8,7 +8,6 @@ use BetterWorld\Scribe\Contracts\Scopes;
 use BetterWorld\Scribe\Http\Storyline;
 
 use function BetterWorld\Scribe\Support\array_value;
-use function BetterWorld\Scribe\Support\delimited_case;
 
 final readonly class NarrativeApiPublisher implements Publisher
 {
@@ -44,7 +43,7 @@ final readonly class NarrativeApiPublisher implements Publisher
 
         foreach ($book->read() as $narrative) {
             $occurrence = [
-                'event' => delimited_case($narrative::key()),
+                'event' => $narrative::key(),
                 'details' => $narrative->values(),
                 'framing' => $narrative->framing(),
                 'occurred_at' => $narrative->occurredAt(),

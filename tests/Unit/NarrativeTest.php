@@ -44,10 +44,10 @@ test('a narrative has a key', function (): void {
 
 test('a narrative can define a key', function (): void {
     $narrative = new
-    #[Key('test:my-custom key')]
+    #[Key('test.my-custom key')]
     class extends Narrative {};
 
-    expect($narrative::key())->toBe('test:my_custom_key');
+    expect($narrative::key())->toBe('test.my_custom_key');
 });
 
 test(' a narrative has a context', function (): void {

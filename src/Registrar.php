@@ -5,8 +5,6 @@ namespace BetterWorld\Scribe;
 use BetterWorld\Scribe\Contracts\Narrative;
 use BetterWorld\Scribe\Contracts\Publisher;
 
-use function BetterWorld\Scribe\Support\delimited_case;
-
 final class Registrar
 {
     protected NarrativeService $narrativeService;
@@ -48,7 +46,7 @@ final class Registrar
                 $this->narrativeService
                     ->getStoryline($publisher)
                     ?->events()
-                    ->upsert($event::name(), $event::context(), $event::definitions(), delimited_case($event::key()));
+                    ->upsert($event::name(), $event::context(), $event::definitions(), $event::key());
             }
         }
 
