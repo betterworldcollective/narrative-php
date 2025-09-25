@@ -11,6 +11,12 @@ use Saloon\Http\Connector;
 
 class Storyline extends Connector
 {
+    public ?int $tries = 3;
+
+    public ?int $retryInterval = 500;
+
+    public ?bool $useExponentialBackoff = true;
+
     public function __construct(protected readonly string $baseUrl, protected readonly string $bearerToken) {}
 
     public function resolveBaseUrl(): string
